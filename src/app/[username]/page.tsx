@@ -8,6 +8,8 @@ type ProfilePageProps = {
   };
 };
 
+export const revalidate = 0;
+
 export default async function ProfilePage({ params }: ProfilePageProps) {
   const { user: loggedInUser } = await validateRequest();
 

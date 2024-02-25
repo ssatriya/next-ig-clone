@@ -144,7 +144,7 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
     {
       label: "Profile",
       type: "link",
-      href: `/${user.username}`,
+      href: `/beamng`,
       children: (
         <div className="flex items-center justify-center shrink-0">
           <div
