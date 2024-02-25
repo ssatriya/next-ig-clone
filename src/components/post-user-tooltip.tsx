@@ -75,11 +75,7 @@ const PostUserTooltip = ({ post, userId, children }: PostUserTooltipProps) => {
           <div className="px-2 py-3">
             <div className="flex gap-3 items-center">
               <Link
-                href={
-                  stories
-                    ? `/stories/${post.user.username}`
-                    : `/${post.user.username}`
-                }
+                href={`/${post.user.username}`}
                 className={cn(
                   "h-[68px] w-[68px] flex items-center justify-center p-3 rounded-full",
                   stories

@@ -164,11 +164,7 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
               <div className="flex items-center gap-3">
                 {/* <PostUserTooltip post={post} userId={post.userId}> */}
                 <Link
-                  href={
-                    stories
-                      ? `/stories/${post.user.username}`
-                      : `/${post.user.username}`
-                  }
+                  href={`/${post.user.username}`}
                   className={cn(
                     "h-[42px] w-[42px] flex items-center justify-center p-3 rounded-full",
                     stories
@@ -216,11 +212,7 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
               <div className="flex items-start gap-3">
                 <PostUserTooltip post={post} userId={post.userId}>
                   <Link
-                    href={
-                      stories
-                        ? `/stories/${post.user.username}`
-                        : `/${post.user.username}`
-                    }
+                    href={`/${post.user.username}`}
                     className={cn(
                       "h-[42px] w-[42px] flex items-center justify-center p-3 rounded-full",
                       stories

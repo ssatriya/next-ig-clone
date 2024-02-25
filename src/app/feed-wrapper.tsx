@@ -2,9 +2,8 @@ import db from "@/lib/db";
 import { ExtendedPost } from "@/types/db";
 import Feed from "./_components/content/feed";
 import { User } from "lucia";
-import { comments, followers, posts, users } from "@/lib/db/schema";
-import { and, count, desc, eq, inArray, or, sql } from "drizzle-orm";
-import Temp from "@/components/temp";
+
+export const revalidate = 0;
 
 async function getPosts(userId: string) {
   // I'am following this user

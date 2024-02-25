@@ -109,8 +109,6 @@ const PostItem = ({ post }: PostItemProps) => {
     mutate();
   };
 
-  const aRef = useRef<ElementRef<"a">>(null);
-
   if (!isMounted) {
     return null;
   }
@@ -122,11 +120,7 @@ const PostItem = ({ post }: PostItemProps) => {
           <div className="flex gap-2 items-center">
             <PostUserTooltip post={post} userId={post.userId}>
               <Link
-                href={
-                  stories
-                    ? `/stories/${post.user.username}`
-                    : `/${post.user.username}`
-                }
+                href={`/${post.user.username}`}
                 onClick={() => setFromTop(scroll.y)}
                 className={cn(
                   "h-[42px] w-[42px] flex items-center justify-center p-3 rounded-full",

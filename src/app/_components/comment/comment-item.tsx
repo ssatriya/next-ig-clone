@@ -25,11 +25,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
         <div className="flex items-center gap-3">
           <CommentUserTooltip comment={comment} userId={comment.userId}>
             <Link
-              href={
-                stories
-                  ? `/stories/${comment.user.username}`
-                  : `/${comment.user.username}`
-              }
+              href={`/${comment.user.username}`}
               className={cn(
                 "h-[42px] w-[42px] flex items-center justify-center p-3 rounded-full",
                 stories
