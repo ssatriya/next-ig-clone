@@ -3,7 +3,7 @@ import { GitHub, Google } from "arctic";
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 
 import db from "@/lib/db";
-import { users, sessions } from "@/lib/db/schema";
+import { sessions, users } from "../db/schema";
 
 const adapter = new DrizzlePostgreSQLAdapter(db, sessions, users);
 
