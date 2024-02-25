@@ -98,7 +98,7 @@ const ProfileInfo = ({
                 className={cn(
                   "px-4 h-8 text-sm rounded-lg",
                   !!isFollowing
-                    ? "bg-background-accent hover:bg-background-accent/80"
+                    ? "bg-igElevatedSeparator/50 hover:bg-igElevatedSeparator dark:bg-background-accent dark:hover:bg-background-accent/80"
                     : "bg-igPrimary hover:bg-igPrimaryHover"
                 )}
               >
@@ -120,7 +120,7 @@ const ProfileInfo = ({
             {!myProfile && (
               <Button
                 variant="nav"
-                className="px-4 h-8 bg-background-accent hover:bg-background-accent/80 text-sm rounded-lg"
+                className="px-4 h-8 bg-igElevatedSeparator/50 hover:bg-igElevatedSeparator dark:bg-background-accent dark:hover:bg-background-accent/80 text-sm rounded-lg"
               >
                 Message
               </Button>
