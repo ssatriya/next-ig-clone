@@ -216,7 +216,7 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
               "h-full px-3 pt-6 pb-4 flex flex-col justify-between fixed",
               isOpenSearch
                 ? "w-[72px] border-none"
-                : "w-[245px] min-[1700px]:w-[336px] z-20 border-r-[1px]"
+                : "w-[245px] min-[1700px]:w-[336px] border-r-[1px]"
             )}
           >
             <div>

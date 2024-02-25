@@ -19,7 +19,6 @@ const SuggestedUser = ({ user }: SuggestedUserProps) => {
       follow(userId).then((data) => {
         if (data.success) {
           queryClient.invalidateQueries({ queryKey: ["suggestedUser"] });
-          queryClient.invalidateQueries({ queryKey: ["feedQuery"] });
         }
         if (data.error) {
         }
