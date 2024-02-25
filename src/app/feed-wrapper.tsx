@@ -7,8 +7,6 @@ import { and, count, desc, eq, inArray, or, sql } from "drizzle-orm";
 import Temp from "@/components/temp";
 
 async function getPosts(userId: string) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   // I'am following this user
   // So I query using my id and get the followersId
   // as a person that I follow

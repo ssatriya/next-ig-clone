@@ -9,8 +9,6 @@ import React, {
 
 import { CropperSource, mergeRefs } from "react-advanced-cropper";
 import useFilter from "@/hooks/use-filter";
-import { FilterOptionsType } from "@/types";
-import { setTimeout } from "timers";
 import { cn } from "@/lib/utils";
 
 interface Props {
