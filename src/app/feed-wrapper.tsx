@@ -3,7 +3,7 @@ import { ExtendedPost } from "@/types/db";
 import Feed from "./_components/content/feed";
 import { User } from "lucia";
 
-export const revalidate = 0;
+// export const revalidate = 0;
 
 async function getPosts(userId: string) {
   // I'am following this user
