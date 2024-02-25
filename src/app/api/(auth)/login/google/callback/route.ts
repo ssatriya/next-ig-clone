@@ -79,21 +79,21 @@ export async function GET(request: Request): Promise<Response> {
     }
 
     const userId = generateId(16);
-    // await db.transaction(async (tx) => {
-    await db.insert(users).values({
-      id: userId,
-      name: googleUserResult.name,
-      username: `${googleUserResult.given_name.toLowerCase()}`,
-      email: googleUserResult.email,
-      isOauth: true,
-      image: googleUserResult.picture,
+    await db.transaction(async (tx) => {
+      await tx.insert(users).values({
+        id: userId,
+        name: googleUserResult.name,
+        username: `${googleUserResult.given_name.toLowerCase()}`,
+        email: googleUserResult.email,
+        isOauth: true,
+        image: googleUserResult.picture,
+      });
+      await tx.insert(oauthAccounts).values({
+        providerId: "google",
+        providerUserId: googleUserResult.sub,
+        userId: userId,
+      });
     });
-    await db.insert(oauthAccounts).values({
-      providerId: "google",
-      providerUserId: googleUserResult.sub,
-      userId: userId,
-    });
-    // });
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
