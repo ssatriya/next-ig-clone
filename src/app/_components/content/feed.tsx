@@ -43,10 +43,10 @@ const Feed = ({ posts }: FeedProps) => {
       return pages.length + 1;
     },
     initialPageParam: 1,
-    initialData: {
-      pages: [posts],
-      pageParams: [1],
-    },
+    // initialData: {
+    //   pages: [posts],
+    //   pageParams: [1],
+    // },
   });
 
   useEffect(() => {
