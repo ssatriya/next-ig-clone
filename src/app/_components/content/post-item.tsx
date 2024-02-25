@@ -203,7 +203,13 @@ const PostItem = ({ post }: PostItemProps) => {
         </div>
         <div className="flex justify-between items-center w-full mt-1">
           <div className="flex -ml-2">
-            {user && <LikeButton post={post} loggedInUserId={user.id} />}
+            {/* {user && <LikeButton post={post} loggedInUserId={user.id} />} */}
+            <Button
+              size="icon"
+              className="p-2 h-10 w-10 bg-transparent hover:bg-transparent group"
+            >
+              <Icons.like className="fill-primary group-hover:fill-igSecondaryText" />
+            </Button>
             <Link href={`/p/${post.id}`}>
               <Button
                 size="icon"
