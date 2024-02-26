@@ -1,6 +1,6 @@
 import db from "@/lib/db";
 import { ExtendedPost } from "@/types/db";
-import PostModal from "../../_components/post-modal";
+import PostModal from "../../_components/p/post-modal";
 import { validateRequest } from "@/lib/auth/validate-request";
 
 type PageProps = {

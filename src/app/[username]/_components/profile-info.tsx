@@ -10,7 +10,8 @@ import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { ExtendedPost, ExtendedUser } from "@/types/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import FollowersModal from "./followers/followers-modal";
+import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 
 type ProfileInfoProps = {
   userPosts: ExtendedPost[];
@@ -24,9 +25,6 @@ const ProfileInfo = ({
   loggedInUser,
 }: ProfileInfoProps) => {
   const [isPending, startTransition] = useTransition();
-  const [openFollowersModal, setOpenFollowersModal] = useState(false);
-  const [openFollowingModal, setOpenFollowingModal] = useState(false);
-
   const myProfile = loggedInUser
     ? loggedInUser.id === userByUsername.id
     : false;
@@ -34,6 +32,18 @@ const ProfileInfo = ({
   const isFollowing = userByUsername.followers.find(
     (user) => user.followingsId === loggedInUser?.id
   );
+
+  const { data: userProfileData } = useQuery({
+    queryKey: ["userProfileQuery", userByUsername.username],
+    queryFn: async () => {
+      const req = await fetch(
+        `/api/user/by-username?username=${userByUsername.username}`
+      );
+      const data = await req.json();
+
+      return data as ExtendedUser;
+    },
+  });
 
   const followHandler = () => {
     startTransition(() => {
@@ -137,38 +147,16 @@ const ProfileInfo = ({
             {userPosts.length}
             <span className="font-normal"> posts</span>
           </span>
-          <a
-            href={`/${userByUsername.username}/followers`}
-            target="_blank"
-            onClick={(e) => {
-              e.preventDefault();
-              setOpenFollowersModal(true);
-            }}
-            role="link"
-            tabIndex={0}
-          >
+          <Link href={`/${userByUsername.username}/followers`}>
             <Button variant="text" className="h-fit w-fit p-0">
               <span className="text-base font-bold">
                 {userByUsername.followers.length}
                 <span className="font-normal"> followers</span>
               </span>
             </Button>
-          </a>
-          {openFollowersModal && (
-            <FollowersModal
-              open={openFollowersModal}
-              setOpenFollowersModal={setOpenFollowersModal}
-            />
-          )}
-          <a
-            href={`/${userByUsername.username}/following`}
-            target="_blank"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-            role="link"
-            tabIndex={0}
-          >
+          </Link>
+
+          <Link href={`/${userByUsername.username}/following`}>
             <Button
               variant="text"
               className="h-fit w-fit p-0 text-base font-normal"
@@ -178,7 +166,7 @@ const ProfileInfo = ({
                 <span className="font-normal"> following</span>
               </span>
             </Button>
-          </a>
+          </Link>
         </div>
         <span className="text-sm font-semibold">{userByUsername.name}</span>
       </div>
