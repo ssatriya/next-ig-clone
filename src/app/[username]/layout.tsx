@@ -12,18 +12,20 @@ type MetadataProps = {
 };
 
 export async function generateMetadata({ params }: MetadataProps) {
+  const { user } = await validateRequest();
+
   const userByUsername = await db.query.users.findFirst({
     where: (users, { eq }) => eq(users.username, params.username),
   });
 
-  if (userByUsername) {
+  if (userByUsername?.id === user?.id) {
     return {
-      title: `${userByUsername.name} (@${userByUsername.username}) • Instagram photos and videos`,
+      title: `${userByUsername?.name} (@${userByUsername?.username}) • Instagram photos and videos`,
     };
   }
 
   return {
-    title: "Instagram",
+    title: `@${userByUsername?.username} • Instagram photos and videos`,
   };
 }
 

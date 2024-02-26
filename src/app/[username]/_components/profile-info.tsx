@@ -45,6 +45,8 @@ const ProfileInfo = ({
     },
   });
 
+  const profileData = userProfileData ?? userByUsername;
+
   const followHandler = () => {
     startTransition(() => {
       follow(userByUsername.id).then((data) => {
@@ -150,7 +152,8 @@ const ProfileInfo = ({
           <Link href={`/${userByUsername.username}/followers`}>
             <Button variant="text" className="h-fit w-fit p-0">
               <span className="text-base font-bold">
-                {userByUsername.followers.length}
+                {/* {userByUsername.followers.length} */}
+                {profileData.followers.length}
                 <span className="font-normal"> followers</span>
               </span>
             </Button>
@@ -162,7 +165,8 @@ const ProfileInfo = ({
               className="h-fit w-fit p-0 text-base font-normal"
             >
               <span className="text-base font-bold">
-                {userByUsername.followings.length}
+                {/* {userByUsername.followings.length} */}
+                {profileData.followings.length}
                 <span className="font-normal"> following</span>
               </span>
             </Button>

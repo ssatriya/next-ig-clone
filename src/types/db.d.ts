@@ -44,3 +44,13 @@ export type LikeWithUserAndFollowers = LikesSelectType & {
 
 export type LikeWithUserAndFollowersWithIsFollowing =
   LikeWithUserAndFollowers & { isFollowing: boolean };
+
+export type UserFollowersPost = UserSelectType & {
+  followers: FollowersSelectType[];
+  followings: FollowersSelectType[];
+  post: PostSelectType[];
+};
+
+export type UserFollowersPostWithIsFollowing = UserFollowersPost & {
+  isFollowing: boolean;
+};

@@ -1,3 +1,4 @@
+import { validateRequest } from "@/lib/auth/validate-request";
 import FollowingModal from "../../_components/username/following-modal";
 
 type FollowingModalPageProps = {
@@ -6,8 +7,12 @@ type FollowingModalPageProps = {
   };
 };
 
-export default function FollowingModalPage({
+export default async function FollowingModalPage({
   params,
 }: FollowingModalPageProps) {
-  return <FollowingModal username={params.username} />;
+  const { user } = await validateRequest();
+
+  if (!user) return null;
+
+  return <FollowingModal username={params.username} loggedInUserId={user.id} />;
 }

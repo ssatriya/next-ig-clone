@@ -6,49 +6,44 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
 import UserItemSkeleton from "@/app/_components/content/liked/user-item-skeleton";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
-import {
-  FollowersSelectType,
-  PostSelectType,
-  UserSelectType,
-} from "@/lib/db/schema";
-import UserFollowersItem from "./user-followers-item";
-import { useTransition } from "react";
-import { follow } from "@/actions/follow";
 import UserFollowingItem from "./user-following-item";
-
-type UserWithFollowersAndPost = UserSelectType & {
-  followers: FollowersSelectType[];
-  followings: FollowersSelectType[];
-  post: PostSelectType[];
-};
+import { UserFollowersPostWithIsFollowing } from "@/types/db";
+import { useEffect, useState } from "react";
 
 type FollowingModalProps = {
   username: string;
+  loggedInUserId: string;
 };
 
-const FollowingModal = ({ username }: FollowingModalProps) => {
+const FollowingModal = ({ username, loggedInUserId }: FollowingModalProps) => {
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
+  const [open, setOpen] = useState(true);
 
   const { data: userFollowingData, isLoading } = useQuery({
     queryKey: ["getFollowingData"],
     queryFn: async () => {
-      const req = await fetch(
-        `/api/user/profile/follow-count?username=${username}&type=following`
-      );
-      const userProfile = await req.json();
-
-      return userProfile as UserWithFollowersAndPost[];
+      const req = await fetch(`/api/user/following?username=${username}`);
+      const data = await req.json();
+      return data as UserFollowersPostWithIsFollowing[];
     },
   });
 
   const onDismiss = () => {
     router.back();
+    setOpen(false);
   };
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
+
   return (
-    <Dialog defaultOpen>
+    <Dialog open={open} defaultOpen>
       <DialogContent
         onInteractOutside={onDismiss}
         className="w-[400px] border-none dark:bg-igSeparator bg-background p-0 sm:rounded-xl gap-0"
@@ -75,10 +70,20 @@ const FollowingModal = ({ username }: FollowingModalProps) => {
           )}
           {!isLoading &&
             userFollowingData &&
-            userFollowingData?.map((following) => (
-              <UserFollowingItem key={following.id} user={following} />
+            userFollowingData.map((following) => (
+              <UserFollowingItem
+                key={following.id}
+                user={following}
+                loggedInUserId={loggedInUserId}
+                setOpen={setOpen}
+              />
             ))}
         </div>
+        {userFollowingData && userFollowingData.length === 0 && (
+          <div className="max-h-[400px] text-center mb-4">
+            <span className="text-sm">You aren&apos;t following anyone</span>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

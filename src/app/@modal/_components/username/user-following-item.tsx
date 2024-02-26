@@ -1,43 +1,45 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  FollowersSelectType,
-  PostSelectType,
-  UserSelectType,
-} from "@/lib/db/schema";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type UserWithFollowersAndPost = UserSelectType & {
-  followers: FollowersSelectType[];
-  followings: FollowersSelectType[];
-  post: PostSelectType[];
-};
+import {
+  UserFollowersPost,
+  UserFollowersPostWithIsFollowing,
+} from "@/types/db";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import PostUserTooltip from "@/components/post-user-tooltip";
+import { Dispatch, SetStateAction } from "react";
 
 type UserFollowingItemProps = {
-  user: UserWithFollowersAndPost;
+  user: UserFollowersPostWithIsFollowing;
+  loggedInUserId: string;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const UserFollowingItem = ({ user }: UserFollowingItemProps) => {
+const UserFollowingItem = ({
+  user,
+  loggedInUserId,
+  setOpen,
+}: UserFollowingItemProps) => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["mutateFollowing"],
     mutationFn: async (userId: string) => {
       const res = await fetch(`/api/user/following?userId=${userId}`, {
-        method: "DELETE",
+        method: "PATCH",
       });
-      const data = await res.json();
-      console.log(data);
-      return data;
+
+      return res;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getFollowingData"] });
       queryClient.invalidateQueries({
-        queryKey: ["userProfileQuery", user.username],
+        queryKey: ["userProfileQuery"],
       });
     },
   });
@@ -62,29 +64,38 @@ const UserFollowingItem = ({ user }: UserFollowingItemProps) => {
           <AvatarFallback>ss</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <Link href={`/${user?.username}`}>
+          <Link href={`/${user?.username}`} onClick={() => setOpen(false)}>
             <span className="text-sm font-bold">{user?.username}</span>
           </Link>
           <span className="text-sm">{user?.name}</span>
         </div>
       </div>
-      <Button
-        onClick={followHandler}
-        variant="nav"
-        className="px-4 h-8 text-sm rounded-lg dark:text-primary dark:bg-igSecondaryTextV2/30 dark:hover:bg-igSecondaryTextV2/15 bg-igSecondaryTextV2/30 hover:bg-igSecondaryTextV2/60"
-      >
-        {isPending ? (
-          <Image
-            src="/assets/loading-spinner.svg"
-            height={18}
-            width={18}
-            alt="Loading"
-            className="animate-spin"
-          />
-        ) : (
-          "Following (not checked)"
-        )}
-      </Button>
+      {user?.id !== loggedInUserId && (
+        <Button
+          onClick={followHandler}
+          variant="nav"
+          className={cn(
+            "px-4 h-8 text-sm rounded-lg",
+            user?.isFollowing
+              ? "dark:text-primary dark:bg-igSecondaryTextV2/30 dark:hover:bg-igSecondaryTextV2/15 bg-igSecondaryTextV2/30 hover:bg-igSecondaryTextV2/60"
+              : "bg-igPrimary hover:bg-igPrimaryHover"
+          )}
+        >
+          {isPending ? (
+            <Image
+              src="/assets/loading-spinner.svg"
+              height={18}
+              width={18}
+              alt="Loading"
+              className="animate-spin"
+            />
+          ) : !isPending && user?.isFollowing ? (
+            "Following"
+          ) : (
+            "Follow"
+          )}
+        </Button>
+      )}
     </div>
   );
 };
