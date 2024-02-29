@@ -4,7 +4,6 @@ import ProfileInfo from "./_components/profile-info";
 import ProfileFooter from "./_components/profile-footer";
 import { validateRequest } from "@/lib/auth/validate-request";
 import ProfileHightlight from "./_components/profile-hightlight";
-import ProgressbarProvider from "@/components/provider/progressbar-provider";
 
 type MetadataProps = {
   params: {
