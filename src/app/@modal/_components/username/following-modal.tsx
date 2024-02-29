@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 type FollowingModalProps = {
   username: string;
   loggedInUserId: string;
-  reload: boolean;
+  reload?: boolean;
 };
 
 const FollowingModal = ({
