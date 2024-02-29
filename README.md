@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Instagram Clone App 🚀
 
-## Getting Started
+Welcome to the Instagram Clone App repository! This project aims to replicate the core functionalities of Instagram, providing users with a platform to share their thoughts through pictures, follow others, and engage in meaningful conversations with comments.
 
-First, run the development server:
+This project is using Drizzle ORM and Neon PostgreSQL. Some feature from that version of project implemented in this one yet, but will gradually add.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features 🌟
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Authentication:** Currently user can authenticate only using Gmail with [Lucia Auth](https://lucia-auth.com/getting-started/), my fav auth lib.
+- **Posting:** Post your image with or without caption, user can upload multiple image at one and form carousel. Currently only support image and not video. I use [uploadthing](https://uploadthing.com/) service to make it easy and fast to implement, will try to use AWS S3 in the future.
+- **Follow and Unfollow:** You can follow and un-follow other user, you only able to see followed user post in you feed.
+- **Like and Comment:** You can like and comment to post you see in your feed. Sub-comment and mention not implemented yet.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack 🛠️
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Frontend:** React with Nextjs, [Zustand](https://zustand-demo.pmnd.rs/) for state management, [Shadcn UI](https://ui.shadcn.com/) for styling with [Tailwind CSS](https://tailwindcss.com/).
+- **Backend:** [Next.js](https://nextjs.org/) for all the process that require to display data in the frontend.
+- **Database:** PostgreSQL for database storage, via [Neon](https://neon.tech/) service.
+- **Real-Time Updates:** Using [Tanstack Query](https://tanstack.com/) package to give a real-time user experience.
 
-## Learn More
+## TODO 📝
 
-To learn more about Next.js, take a look at the following resources:
+- Implement responsive design.
+- Implement profile edit.
+- Implement mention and sub comment.
+- Implement github and email sign-up for authentication.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Knwon Bug 🐞
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+-
 
-## Deploy on Vercel
+## Getting Started 🚀
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.  Clone the repository:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    ```bash
+    git clone https://github.com/ssatriya/next-ig-clone
+
+    ```
+
+2.  Open the project:
+
+    ```bash
+    cd x
+    npm install
+    ```
+
+3.  Create the .env file
+4.  Start the project
+    ```bash
+    npm run dev
+    ```

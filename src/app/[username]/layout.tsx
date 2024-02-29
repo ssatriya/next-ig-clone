@@ -1,9 +1,9 @@
 import db from "@/lib/db";
-import { validateRequest } from "@/lib/auth/validate-request";
-import ProfileInfo from "./_components/profile-info";
-import ProfileHightlight from "./_components/profile-hightlight";
-import ProfileFooter from "./_components/profile-footer";
 import TabsWrapper from "./_components/tabs-wrapper";
+import ProfileInfo from "./_components/profile-info";
+import ProfileFooter from "./_components/profile-footer";
+import { validateRequest } from "@/lib/auth/validate-request";
+import ProfileHightlight from "./_components/profile-hightlight";
 
 type MetadataProps = {
   params: {
@@ -68,7 +68,7 @@ export default async function ProfileLayout({
   });
 
   return (
-    <div className="w-[975px] pt-[30px] px-5 mt-2 space-y-14 min-h-screen">
+    <div className="w-[975px] py-[38px] px-5 space-y-14 flex flex-col min-h-screen">
       <ProfileInfo
         userPosts={userPosts}
         userByUsername={userByUsername}

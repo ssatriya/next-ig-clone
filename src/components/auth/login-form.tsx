@@ -32,7 +32,7 @@ const LoginForm = () => {
 
   return (
     <div className="flex flex-col gap-3 min-h-screen items-center justify-center">
-      <Card className="w-[350px] text-center shadow-none border-background-accent rounded-sm">
+      <Card className="w-[350px] text-center shadow-none border-igElevatedSeparator/40 rounded-sm">
         <CardHeader>
           <p className={cn(pacifico.className, "text-4xl")}>Instagram</p>
         </CardHeader>
@@ -66,7 +66,6 @@ const LoginForm = () => {
                           {...field}
                           type="password"
                           label="Password"
-                          className="text-black"
                         />
                       </FormControl>
                       <FormMessage />
@@ -79,6 +78,7 @@ const LoginForm = () => {
                 className="w-full text-white font-semibold"
                 variant="primary"
                 size="sm"
+                disabled
               >
                 Log in
               </Button>
@@ -102,7 +102,7 @@ const LoginForm = () => {
           </div>
         </CardContent>
       </Card>
-      <Card className="w-[350px] text-center shadow-none border-background-accent rounded-sm">
+      <Card className="w-[350px] text-center shadow-none border-igElevatedSeparator/40 rounded-sm">
         <CardContent className="h-full flex items-center justify-center p-0">
           <p className="text-sm p-5">
             Don&apos;t have an account?{" "}

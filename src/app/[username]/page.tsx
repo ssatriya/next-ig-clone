@@ -1,6 +1,6 @@
 import db from "@/lib/db";
 import { validateRequest } from "@/lib/auth/validate-request";
-import ProfileTabs from "./_components/posts-tabs";
+import PostsTabs from "./_components/posts-tabs";
 
 type ProfilePageProps = {
   params: {
@@ -43,7 +43,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   });
 
   return (
-    <ProfileTabs
+    <PostsTabs
       loggedInUser={loggedInUser}
       userByUsername={userByUsername}
       userPosts={userPosts}

@@ -1,8 +1,6 @@
 "use client";
 
-import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 const SocialLogin = () => {
   const onClick = (providers: "google" | "github") => {
@@ -16,30 +14,20 @@ const SocialLogin = () => {
     <div className="flex gap-2">
       <Button
         onClick={() => onClick("google")}
-        className="w-full bg-primary"
+        className="w-full bg-primary text-xs"
         size="sm"
         aria-label="Login with Google"
       >
-        <Image
-          src="/assets/google.svg"
-          height={20}
-          width={20}
-          alt="Google logo"
-        />
+        Log in with Google
       </Button>
       <Button
         disabled
         onClick={() => onClick("github")}
-        className="w-full bg-primary"
+        className="w-full bg-primary text-xs"
         size="sm"
         aria-label="Login with Github"
       >
-        <Image
-          src="/assets/github.svg"
-          height={20}
-          width={20}
-          alt="Github logo"
-        />
+        Log in with Github
       </Button>
     </div>
   );

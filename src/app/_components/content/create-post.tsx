@@ -205,7 +205,13 @@ const CreatePost = () => {
 
   return (
     <div className="w-full">
-      <Dialog open={isOpen} onOpenChange={onClose}>
+      <Dialog
+        open={isOpen}
+        onOpenChange={() => {
+          if (posting === "posting") return;
+          onClose();
+        }}
+      >
         <DialogContent
           onInteractOutside={(e) => {
             if (files.length < 1) return;

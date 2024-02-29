@@ -1,12 +1,12 @@
 "use client";
 
-import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
+
 import { cn } from "@/lib/utils";
 import { ExtendedUser } from "@/types/db";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { Icons } from "@/components/icons";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 type TabsWrapperProps = {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ const TabsWrapper = ({ children, userByUsername }: TabsWrapperProps) => {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col flex-1">
       <div className="flex gap-10 justify-center w-full border-t-[1px] h-[53px]">
         <Link href={`/${userByUsername.username}`}>
           <Button

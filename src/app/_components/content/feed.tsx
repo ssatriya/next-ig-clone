@@ -1,20 +1,21 @@
 "use client";
 
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
+
 import PostItem from "./post-item";
 import { ExtendedPost } from "@/types/db";
-import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
-import { useEffect, useRef, useState } from "react";
-import { useIntersection } from "@mantine/hooks";
+import FeedLoading from "@/app/feed-loading";
 import { useScrollHistory } from "@/hooks/use-scroll-history";
-import Image from "next/image";
+import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 
 type FeedProps = {
   posts: ExtendedPost[];
 };
 
 const Feed = ({ posts }: FeedProps) => {
-  const [isMounted, setIsMounted] = useState(false);
   const { fromTop } = useScrollHistory((state) => state);
   const lastPostRef = useRef();
   const { ref, entry } = useIntersection({
@@ -98,6 +99,7 @@ const Feed = ({ posts }: FeedProps) => {
           </span>
         </li>
       )}
+      {isLoading && <FeedLoading />}
     </ul>
   );
 };

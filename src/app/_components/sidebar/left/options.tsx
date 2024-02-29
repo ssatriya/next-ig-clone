@@ -87,6 +87,7 @@ const Options = () => {
                   setTheme(!checkedDarkMode ? "dark" : "light");
                 }}
                 role="button"
+                tabIndex={0}
                 className="p-4 flex items-center justify-between h-[50px] w-[250px] rounded-lg hover:bg-hoverOptions cursor-pointer"
               >
                 <p className="text-sm leading-5 font-light select-none">

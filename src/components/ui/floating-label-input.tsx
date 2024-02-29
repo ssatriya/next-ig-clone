@@ -19,13 +19,13 @@ const FloatingLabelInput = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className="relative flex items-center h-10 bg-igSecondaryBackground group focus-within:border-gray-400 border border-igElevatedSeparator rounded-sm">
+      <div className="relative flex items-center h-10  group focus-within:border-gray-400 border border-igElevatedSeparator/40 rounded-sm">
         <input
           type={type}
           className={cn(
             "flex h-full bg-transparent w-full pt-[9px] pr-0 pb-[7px] pl-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 rounded-sm border-igElevatedSeparator focus-visible:ring-none focus-visible:ring-0",
             className,
-            props.value !== "" && "pb-0 text-xs text-background transition"
+            props.value !== "" && "pb-0 text-xs text-foreground"
           )}
           ref={mergeRefs([inputRef, ref])}
           {...props}

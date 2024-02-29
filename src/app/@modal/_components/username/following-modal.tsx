@@ -15,9 +15,14 @@ import { useEffect, useState } from "react";
 type FollowingModalProps = {
   username: string;
   loggedInUserId: string;
+  reload: boolean;
 };
 
-const FollowingModal = ({ username, loggedInUserId }: FollowingModalProps) => {
+const FollowingModal = ({
+  username,
+  loggedInUserId,
+  reload,
+}: FollowingModalProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const [open, setOpen] = useState(true);
@@ -32,6 +37,10 @@ const FollowingModal = ({ username, loggedInUserId }: FollowingModalProps) => {
   });
 
   const onDismiss = () => {
+    if (reload) {
+      router.push(`/${username}`);
+      return;
+    }
     router.back();
     setOpen(false);
   };
