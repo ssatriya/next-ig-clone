@@ -215,6 +215,7 @@ const CreatePost = () => {
         <DialogContent
           onInteractOutside={(e) => {
             if (files.length < 1) return;
+            if (posting === "posting") return;
             e.preventDefault();
             onConfirmOpen();
             setPostStep("image");

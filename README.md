@@ -27,8 +27,6 @@ This project is using Drizzle ORM and Neon PostgreSQL. Some feature from that ve
 
 ## Known Bug 🐞
 
-- Cropper doesn't work with Swiperjs
-
 ## Getting Started 🚀
 
 1.  Clone the repository:

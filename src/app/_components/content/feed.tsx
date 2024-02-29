@@ -64,7 +64,7 @@ const Feed = ({ posts }: FeedProps) => {
   }, []);
 
   return (
-    <ul className="w-[630px] h-full flex flex-col items-center pt-4">
+    <ul className="w-[630px] h-full flex flex-col items-center">
       {feedPosts &&
         feedPosts.map((post, index) => {
           if (index === feedPosts.length - 1) {

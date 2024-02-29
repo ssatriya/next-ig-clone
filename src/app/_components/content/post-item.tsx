@@ -36,6 +36,7 @@ const PostItem = ({ post }: PostItemProps) => {
   const [ref, bounds] = useMeasure();
   const [usernameRef, usernameBounds] = useMeasure();
   const [openLikedModal, setOpenLikedModal] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
   const queryClient = useQueryClient();
   const {
     session: { user },
@@ -196,6 +197,7 @@ const PostItem = ({ post }: PostItemProps) => {
                   alt="Post Image"
                   // sizes="470px"
                   style={{ width: "auto", height: "auto" }}
+                  onLoad={() => setImageLoading(false)}
                 />
               </SwiperSlide>
             ))}

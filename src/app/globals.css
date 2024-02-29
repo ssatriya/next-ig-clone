@@ -25,7 +25,7 @@ p:empty::before {
 }
 
 .advanced-cropper-stencil-overlay {
-  color: rgb(20, 20, 20) !important;
+  /* color: rgb(20, 20, 20) !important; */
 }
 
 .cropper-container {

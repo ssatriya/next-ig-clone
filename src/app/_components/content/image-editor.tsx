@@ -131,6 +131,12 @@ const ImageEditor = ({
     }
   };
 
+  // useEffect(() => {
+  //   if(state.aspectRatio=== "portrait"){
+  //     onZoom()
+  //   }
+  // }, [state.aspectRatio]);
+
   const slideTo = (index: number) => thumbsSwiper.slideTo(index);
 
   useEffect(() => {
@@ -140,7 +146,18 @@ const ImageEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentImage]);
 
-  // Cropper grid not work because of swiper
+  const defaultSize = ({
+    imageSize,
+    visibleArea,
+  }: {
+    imageSize: any;
+    visibleArea: any;
+  }) => {
+    return {
+      width: (visibleArea || imageSize).width,
+      height: (visibleArea || imageSize).height,
+    };
+  };
 
   return (
     <div className="h-[692px] w-full flex">
@@ -153,6 +170,7 @@ const ImageEditor = ({
           navigation
           draggable={false}
           noSwiping={true}
+          allowTouchMove={false}
           pagination={{ clickable: true }}
           onSwiper={setThumbsSwiper}
           onSlideChange={(swiper) => setCurrentImage(swiper.activeIndex)}
@@ -213,12 +231,17 @@ const ImageEditor = ({
               >
                 <Button
                   onClick={() => {
-                    imageRef[currentImage].current?.reset();
-                    imageRef[currentImage].current?.refresh();
                     dispatch({
                       type: "SET_ASPECT_RATIO",
                       aspectRatio: "original",
                     });
+                    setTimeout(() => {
+                      onZoom(
+                        0 / 200,
+                        imageRef[currentImage],
+                        files[currentImage].id
+                      );
+                    }, 100);
                   }}
                   className={cn(
                     "w-full h-12 bg-transparent rounded-b-none hover:bg-transparent text-igSecondaryText text-sm flex gap-2 justify-start items-center",
@@ -235,7 +258,13 @@ const ImageEditor = ({
                       type: "SET_ASPECT_RATIO",
                       aspectRatio: "square",
                     });
-                    imageRef[currentImage].current?.reset();
+                    setTimeout(() => {
+                      onZoom(
+                        0 / 200,
+                        imageRef[currentImage],
+                        files[currentImage].id
+                      );
+                    }, 100);
                   }}
                   className={cn(
                     "w-full h-12 bg-transparent rounded-b-none hover:bg-transparent text-igSecondaryText text-sm flex gap-2 justify-start items-center",
@@ -252,7 +281,14 @@ const ImageEditor = ({
                       type: "SET_ASPECT_RATIO",
                       aspectRatio: "portrait",
                     });
-                    imageRef[currentImage].current?.reset();
+
+                    setTimeout(() => {
+                      onZoom(
+                        0 / 200,
+                        imageRef[currentImage],
+                        files[currentImage].id
+                      );
+                    }, 100);
                   }}
                   className={cn(
                     "w-full h-12 bg-transparent rounded-b-none hover:bg-transparent text-igSecondaryText text-sm flex gap-2 justify-start items-center",
@@ -269,7 +305,13 @@ const ImageEditor = ({
                       type: "SET_ASPECT_RATIO",
                       aspectRatio: "landscape",
                     });
-                    imageRef[currentImage].current?.reset();
+                    setTimeout(() => {
+                      onZoom(
+                        0 / 200,
+                        imageRef[currentImage],
+                        files[currentImage].id
+                      );
+                    }, 100);
                   }}
                   className={cn(
                     "w-full h-12 bg-transparent rounded-b-none hover:bg-transparent text-igSecondaryText text-sm flex gap-2 justify-start items-center",

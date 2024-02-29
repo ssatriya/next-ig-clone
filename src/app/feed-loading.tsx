@@ -13,7 +13,7 @@ export default function FeedLoading() {
 
 FeedLoading.Skeleton = function SkeletonFeedLoading() {
   return (
-    <div className="w-[630px] h-full flex flex-col items-center pt-4">
+    <div className="w-[630px] h-full flex flex-col items-center pt-1">
       <div className="w-[470px] flex flex-col justify-center pt-5 mb-4">
         <div className="flex items-center justify-between w-full mb-3">
           <div className="flex gap-2 items-center">
