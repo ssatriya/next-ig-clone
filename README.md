@@ -25,9 +25,9 @@ This project is using Drizzle ORM and Neon PostgreSQL. Some feature from that ve
 - Implement mention and sub comment.
 - Implement github and email sign-up for authentication.
 
-## Knwon Bug 🐞
+## Known Bug 🐞
 
--
+- Cropper doesn't work with Swiperjs
 
 ## Getting Started 🚀
 

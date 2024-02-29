@@ -64,7 +64,7 @@ const FollowingModal = ({
             onClick={onDismiss}
             variant="text"
             size="icon"
-            className="h-[43] w-[48px]"
+            className="h-[43] w-[48px] focus-visible:ring-0 focus-visible:ring-offset-0"
           >
             <XIcon />
           </Button>

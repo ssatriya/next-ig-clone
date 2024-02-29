@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import PostUserTooltip from "@/components/post-user-tooltip";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type UserFollowingItemProps = {
   user: UserFollowersPostWithIsFollowing;
@@ -26,8 +26,9 @@ const UserFollowingItem = ({
   setOpen,
 }: UserFollowingItemProps) => {
   const queryClient = useQueryClient();
+  const [localIsFollowing, setLocalIsFollowing] = useState(user.isFollowing);
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationKey: ["mutateFollowing"],
     mutationFn: async (userId: string) => {
       const res = await fetch(`/api/user/following?userId=${userId}`, {
@@ -37,12 +38,20 @@ const UserFollowingItem = ({
       return res;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getFollowingData"] });
+      // queryClient.invalidateQueries({ queryKey: ["getFollowingData"] });
       queryClient.invalidateQueries({
         queryKey: ["userProfileQuery"],
       });
     },
   });
+
+  useEffect(() => {
+    if (isSuccess && !user.isFollowing) {
+      setLocalIsFollowing((prev) => !prev);
+    } else if (isSuccess && user.isFollowing) {
+      setLocalIsFollowing((prev) => !prev);
+    }
+  }, [isSuccess, user]);
 
   const followHandler = () => {
     mutate(user.id);
@@ -76,7 +85,7 @@ const UserFollowingItem = ({
           variant="nav"
           className={cn(
             "px-4 h-8 text-sm rounded-lg",
-            user?.isFollowing
+            localIsFollowing
               ? "dark:text-primary dark:bg-igSecondaryTextV2/30 dark:hover:bg-igSecondaryTextV2/15 bg-igSecondaryTextV2/30 hover:bg-igSecondaryTextV2/60"
               : "bg-igPrimary hover:bg-igPrimaryHover"
           )}
@@ -89,7 +98,7 @@ const UserFollowingItem = ({
               alt="Loading"
               className="animate-spin"
             />
-          ) : !isPending && user?.isFollowing ? (
+          ) : !isPending && localIsFollowing ? (
             "Following"
           ) : (
             "Follow"
