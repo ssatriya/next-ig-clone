@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import StarterKit from "@tiptap/starter-kit";
-import Placeholder from "@tiptap/extension-placeholder";
-import { useEditor, EditorContent, Editor } from "@tiptap/react";
+import Image from "next/image";
+import { EditorContent, Editor } from "@tiptap/react";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import EmojiPicker from "@/components/emoji-picker";
-import { PopoverContent } from "@radix-ui/react-popover";
-import { Popover, PopoverTrigger } from "@/components/ui/popover";
-import Image from "next/image";
 
 type CommentEditorProps = {
   isLoading: boolean;

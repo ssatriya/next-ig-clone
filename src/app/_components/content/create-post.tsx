@@ -194,7 +194,7 @@ const CreatePost = () => {
     setPosting("posting");
     const images = await getImages();
 
-    let allFiles: File[] = [];
+    const allFiles: File[] = [];
     images.map((file) => {
       if (file) {
         allFiles.push(file);

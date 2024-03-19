@@ -21,16 +21,10 @@ const PostsTabs = ({
   userByUsername,
   loggedInUser,
 }: PostsTabsProps) => {
-  const router = useRouter();
-
-  return (
-    <div>
-      {userByUsername.id === loggedInUser?.id ? (
-        <PersonalProfilePosts userPosts={userPosts} />
-      ) : (
-        <GeneralProfilePosts userPosts={userPosts} />
-      )}
-    </div>
+  return userByUsername.id === loggedInUser?.id ? (
+    <PersonalProfilePosts userPosts={userPosts} />
+  ) : (
+    <GeneralProfilePosts userPosts={userPosts} />
   );
 };
 export default PostsTabs;

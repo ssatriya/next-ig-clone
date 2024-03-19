@@ -70,9 +70,11 @@ export async function GET(req: Request) {
           inArray(users.id, otherUserFollowingArray),
       });
 
+    const currentUserFollowingsSet = new Set(currentUserFollowingsArray);
+
     const withIsFollowing: UserFollowersPostWithIsFollowing[] =
       listOfUserProfile.map((user) => {
-        const followed = currentUserFollowingsArray.includes(user.id);
+        const followed = currentUserFollowingsSet.has(user.id);
 
         return {
           ...user,

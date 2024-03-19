@@ -1,7 +1,6 @@
 import { Session, User } from "lucia";
 
 import { lucia } from "@/lib/auth";
-import { UserRole } from "@/types";
 
 declare module "lucia" {
   interface Register {
@@ -14,7 +13,6 @@ interface DatabaseUserAttributes {
   name: string;
   username: string;
   email: string;
-  role: UserRole;
   bio: string;
   isOauth: boolean;
   image: string;

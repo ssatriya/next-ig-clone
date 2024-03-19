@@ -49,10 +49,12 @@ export async function GET(req: Request) {
       }
     );
 
+    const followingsSet = new Set(followingsArray);
+
     const withIsFollowing: LikeWithUserAndFollowersWithIsFollowing[] =
       likedUser.map((user) => {
         const followed = followingsArray
-          ? followingsArray.includes(user.userId)
+          ? followingsSet.has(user.userId)
           : false;
 
         return {

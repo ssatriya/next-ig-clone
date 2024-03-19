@@ -5,7 +5,7 @@ import { useToggle } from "ahooks";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import useMeasure from "react-use-measure";
-import { useState, useEffect, ElementRef, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useWindowScroll } from "@mantine/hooks";
