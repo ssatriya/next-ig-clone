@@ -3,12 +3,13 @@
 import { ExtendedPost } from "@/types/db";
 import GeneralProfilePost from "./general-profile-post";
 import { useRouter } from "next/navigation";
+import { memo } from "react";
 
 type GeneralProfilePostsProps = {
   userPosts: ExtendedPost[];
 };
 
-const GeneralProfilePosts = ({ userPosts }: GeneralProfilePostsProps) => {
+const GeneralProfilePosts = memo(({ userPosts }: GeneralProfilePostsProps) => {
   const router = useRouter();
 
   return (
@@ -29,5 +30,6 @@ const GeneralProfilePosts = ({ userPosts }: GeneralProfilePostsProps) => {
       })}
     </div>
   );
-};
+});
+GeneralProfilePosts.displayName = "GeneralProfilePosts";
 export default GeneralProfilePosts;

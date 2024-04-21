@@ -3,12 +3,13 @@
 import Image from "next/image";
 
 import { Copy } from "lucide-react";
+import { memo } from "react";
 
 type GeneralProfilePostProps = {
   postImages: string[];
 };
 
-const GeneralProfilePost = ({ postImages }: GeneralProfilePostProps) => {
+const GeneralProfilePost = memo(({ postImages }: GeneralProfilePostProps) => {
   return (
     <div className="relative h-[309px] w-[309px] cursor-pointer flex items-center justify-center">
       {postImages.length > 1 && (
@@ -23,5 +24,6 @@ const GeneralProfilePost = ({ postImages }: GeneralProfilePostProps) => {
       />
     </div>
   );
-};
+});
+GeneralProfilePost.displayName = "GeneralProfilePost";
 export default GeneralProfilePost;
