@@ -3,7 +3,7 @@
 import { ExtendedPost } from "@/types/db";
 import GeneralProfilePost from "./general-profile-post";
 import { useRouter } from "next/navigation";
-import { memo } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 
 type GeneralProfilePostsProps = {
   userPosts: ExtendedPost[];
@@ -11,7 +11,7 @@ type GeneralProfilePostsProps = {
 
 const GeneralProfilePosts = memo(({ userPosts }: GeneralProfilePostsProps) => {
   const router = useRouter();
-
+  
   return (
     <div className="grid grid-cols-3 gap-1">
       {userPosts.map((post) => {

@@ -5,6 +5,9 @@ import Image from "next/image";
 import { Icons } from "@/components/icons";
 import { Copy } from "lucide-react";
 import { ExtendedPost } from "@/types/db";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type PersonalProfilePostProps = {
   postImages: string[];
@@ -15,6 +18,8 @@ const PersonalProfilePost = ({
   postImages,
   post,
 }: PersonalProfilePostProps) => {
+  const [imageLoading, setImageLoading] = useState(true);
+
   return (
     <div className="relative h-[309px] w-[309px] cursor-pointer flex items-center justify-center group">
       {postImages.length > 1 && (
@@ -27,7 +32,12 @@ const PersonalProfilePost = ({
         priority
         alt="post image"
         style={{ objectFit: "cover" }}
+        className={cn(imageLoading ? "hidden" : "block")}
+        onLoad={() => setImageLoading(false)}
       />
+      {imageLoading && (
+        <Skeleton className="h-[309px] w-[309px] rounded-none" />
+      )}
       <div className="absolute top-1/2  gap-9 hidden group-hover:flex z-30">
         <div className="flex items-start gap-2">
           <Icons.loveActive className="text-white h-5 w-5" fill="white" />

@@ -12,6 +12,7 @@ export type LoginPayload = z.infer<typeof LoginSchema>;
 export const CreatePostSchema = z.object({
   caption: z.string().optional(),
   images: z.string(),
+  aspectRatio: z.string(),
 });
 export type CreatePostPayload = z.infer<typeof CreatePostSchema>;
 

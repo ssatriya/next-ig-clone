@@ -75,11 +75,7 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
     router.back();
   };
 
-  const {
-    data: commentsQuery,
-    isLoading,
-    isFetching,
-  } = useQuery({
+  const { data: commentsQuery, isLoading } = useQuery({
     queryKey: ["getComments"],
     queryFn: async () => {
       const res = await fetch(`/api/comment?postId=${post.id}`);

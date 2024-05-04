@@ -38,6 +38,7 @@ import { Button } from "@/components/ui/button";
 import PostEditor from "@/components/post-editor";
 import { Separator } from "@/components/ui/separator";
 import { ZoomSlider } from "@/components/ui/zoom-slider";
+import { useAspectRatio } from "@/hooks/use-aspect-ratio";
 import { getZoomFactor } from "advanced-cropper/extensions/absolute-zoom";
 import { AdjustableCropperBackground } from "./cropper/adjustable-cropper-background";
 
@@ -46,29 +47,30 @@ interface State {
   ratio: { x: number; y: number };
 }
 
-interface Action {
-  type: string;
-  aspectRatio: "original" | "square" | "portrait" | "landscape";
-}
+// interface Action {
+//   type: string;
+//   aspectRatio: "original" | "square" | "portrait" | "landscape";
+// }
 
-const initialState: State = {
-  aspectRatio: "original",
-  ratio: { x: 1, y: 1 },
-};
+// const initialState: State = {
+//   aspectRatio: "original",
+//   ratio: { x: 1, y: 1 },
+// };
 
-const aspectRatioReducer = (state: State, action: Action): State => {
-  switch (action.aspectRatio) {
-    case "original":
-    case "square":
-      return { aspectRatio: action.aspectRatio, ratio: { x: 1, y: 1 } };
-    case "portrait":
-      return { aspectRatio: action.aspectRatio, ratio: { x: 4, y: 5 } };
-    case "landscape":
-      return { aspectRatio: action.aspectRatio, ratio: { x: 16, y: 9 } };
-    default:
-      return state;
-  }
-};
+// const aspectRatioReducer = (state: State, action: Action): State => {
+//   switch (action.aspectRatio) {
+//     case "original":
+//     case "square":
+//       return { aspectRatio: action.aspectRatio, ratio: { x: 1, y: 1 } };
+//     case "portrait":
+//       return { aspectRatio: action.aspectRatio, ratio: { x: 4, y: 5 } };
+//     case "landscape":
+//       return { aspectRatio: action.aspectRatio, ratio: { x: 16, y: 9 } };
+//     default:
+//       return state;
+//   }
+// };
+
 type ZoomLevelsState = Record<string, number>;
 
 type ImageEditorProps = {
@@ -95,7 +97,7 @@ const ImageEditor = ({
   const [newMediaOpen, { set: setNewMediaOpen, toggle: toggleNewMediaOpen }] =
     useToggle();
   const { selectedPreset, setSelectedFilter } = useFilter((state) => state);
-  const [state, dispatch] = useReducer(aspectRatioReducer, initialState);
+  // const [state, dispatch] = useReducer(aspectRatioReducer, initialState);
   const [currentImage, setCurrentImage] = useState<number>(0);
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [zoomLevels, setZoomLevels] = useState<ZoomLevelsState>({});
@@ -146,18 +148,26 @@ const ImageEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentImage]);
 
-  const defaultSize = ({
-    imageSize,
-    visibleArea,
-  }: {
-    imageSize: any;
-    visibleArea: any;
-  }) => {
-    return {
-      width: (visibleArea || imageSize).width,
-      height: (visibleArea || imageSize).height,
-    };
-  };
+  // const defaultSize = ({
+  //   imageSize,
+  //   visibleArea,
+  // }: {
+  //   imageSize: any;
+  //   visibleArea: any;
+  // }) => {
+  //   return {
+  //     width: (visibleArea || imageSize).width,
+  //     height: (visibleArea || imageSize).height,
+  //   };
+  // };
+
+  const { setAspectRatio, ratio, aspectRatio } = useAspectRatio(
+    (state) => state
+  );
+
+  useEffect(() => {
+    onZoom(0 / 200, imageRef[currentImage], files[currentImage].id);
+  }, [aspectRatio, currentImage, files, imageRef]);
 
   return (
     <div className="h-[692px] w-full flex">
@@ -184,7 +194,7 @@ const ImageEditor = ({
                   grid: true,
                   handlers: false,
                   lines: false,
-                  aspectRatio: state.ratio.x / state.ratio.y,
+                  aspectRatio: ratio.x / ratio.y,
                 }}
                 stencilSize={{
                   width: 692,
@@ -231,21 +241,22 @@ const ImageEditor = ({
               >
                 <Button
                   onClick={() => {
-                    dispatch({
-                      type: "SET_ASPECT_RATIO",
-                      aspectRatio: "original",
-                    });
-                    setTimeout(() => {
-                      onZoom(
-                        0 / 200,
-                        imageRef[currentImage],
-                        files[currentImage].id
-                      );
-                    }, 100);
+                    // dispatch({
+                    //   type: "SET_ASPECT_RATIO",
+                    //   aspectRatio: "original",
+                    // });
+                    setAspectRatio("original");
+                    // setTimeout(() => {
+                    //   onZoom(
+                    //     0 / 200,
+                    //     imageRef[currentImage],
+                    //     files[currentImage].id
+                    //   );
+                    // }, 100);
                   }}
                   className={cn(
                     "w-full h-12 bg-transparent rounded-b-none hover:bg-transparent text-igSecondaryText text-sm flex gap-2 justify-start items-center",
-                    state.aspectRatio === "original" && "text-white"
+                    aspectRatio === "original" && "text-white"
                   )}
                 >
                   Original
@@ -254,21 +265,22 @@ const ImageEditor = ({
                 <Separator orientation="horizontal" className="bg-black" />
                 <Button
                   onClick={() => {
-                    dispatch({
-                      type: "SET_ASPECT_RATIO",
-                      aspectRatio: "square",
-                    });
-                    setTimeout(() => {
-                      onZoom(
-                        0 / 200,
-                        imageRef[currentImage],
-                        files[currentImage].id
-                      );
-                    }, 100);
+                    // dispatch({
+                    //   type: "SET_ASPECT_RATIO",
+                    //   aspectRatio: "square",
+                    // });
+                    setAspectRatio("square");
+                    // setTimeout(() => {
+                    //   onZoom(
+                    //     0 / 200,
+                    //     imageRef[currentImage],
+                    //     files[currentImage].id
+                    //   );
+                    // }, 100);
                   }}
                   className={cn(
                     "w-full h-12 bg-transparent rounded-b-none hover:bg-transparent text-igSecondaryText text-sm flex gap-2 justify-start items-center",
-                    state.aspectRatio === "square" && "text-white"
+                    aspectRatio === "square" && "text-white"
                   )}
                 >
                   1:1
@@ -277,22 +289,22 @@ const ImageEditor = ({
                 <Separator orientation="horizontal" className="bg-black" />
                 <Button
                   onClick={() => {
-                    dispatch({
-                      type: "SET_ASPECT_RATIO",
-                      aspectRatio: "portrait",
-                    });
-
-                    setTimeout(() => {
-                      onZoom(
-                        0 / 200,
-                        imageRef[currentImage],
-                        files[currentImage].id
-                      );
-                    }, 100);
+                    // dispatch({
+                    //   type: "SET_ASPECT_RATIO",
+                    //   aspectRatio: "portrait",
+                    // });
+                    setAspectRatio("portrait");
+                    // setTimeout(() => {
+                    //   onZoom(
+                    //     0 / 200,
+                    //     imageRef[currentImage],
+                    //     files[currentImage].id
+                    //   );
+                    // }, 100);
                   }}
                   className={cn(
                     "w-full h-12 bg-transparent rounded-b-none hover:bg-transparent text-igSecondaryText text-sm flex gap-2 justify-start items-center",
-                    state.aspectRatio === "portrait" && "text-white"
+                    aspectRatio === "portrait" && "text-white"
                   )}
                 >
                   4:5
@@ -301,21 +313,22 @@ const ImageEditor = ({
                 <Separator orientation="horizontal" className="bg-black" />
                 <Button
                   onClick={() => {
-                    dispatch({
-                      type: "SET_ASPECT_RATIO",
-                      aspectRatio: "landscape",
-                    });
-                    setTimeout(() => {
-                      onZoom(
-                        0 / 200,
-                        imageRef[currentImage],
-                        files[currentImage].id
-                      );
-                    }, 100);
+                    // dispatch({
+                    //   type: "SET_ASPECT_RATIO",
+                    //   aspectRatio: "landscape",
+                    // });
+                    setAspectRatio("landscape");
+                    // setTimeout(() => {
+                    //   onZoom(
+                    //     0 / 200,
+                    //     imageRef[currentImage],
+                    //     files[currentImage].id
+                    //   );
+                    // }, 100);
                   }}
                   className={cn(
                     "w-full h-12 bg-transparent rounded-b-none hover:bg-transparent text-igSecondaryText text-sm flex gap-2 justify-start items-center",
-                    state.aspectRatio === "landscape" && "text-white"
+                    aspectRatio === "landscape" && "text-white"
                   )}
                 >
                   16:9

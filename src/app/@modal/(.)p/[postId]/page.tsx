@@ -9,6 +9,8 @@ type PageProps = {
   };
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function Page({ params }: PageProps) {
   const { user } = await validateRequest();
 

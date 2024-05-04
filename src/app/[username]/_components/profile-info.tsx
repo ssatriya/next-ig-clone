@@ -2,16 +2,17 @@
 
 import { User } from "lucia";
 import Image from "next/image";
-import { useState, useTransition } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { follow } from "@/actions/follow";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { ExtendedPost, ExtendedUser } from "@/types/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+import loadingSVG from "../../../../public/assets/loading-spinner.svg";
 
 type ProfileInfoProps = {
   userPosts: ExtendedPost[];
@@ -24,16 +25,13 @@ const ProfileInfo = ({
   userByUsername,
   loggedInUser,
 }: ProfileInfoProps) => {
-  const [isPending, startTransition] = useTransition();
-  const myProfile = loggedInUser
-    ? loggedInUser.id === userByUsername.id
-    : false;
-
-  const isFollowing = userByUsername.followers.find(
-    (user) => user.followingsId === loggedInUser?.id
+  const [isLoading, setIsLoading] = useState(false);
+  const myProfile = useMemo(
+    () => (loggedInUser ? loggedInUser.id === userByUsername.id : false),
+    [loggedInUser]
   );
 
-  const { data: userProfileData } = useQuery({
+  const { data: userProfileData, refetch } = useQuery({
     queryKey: ["userProfileQuery", userByUsername.username],
     queryFn: async () => {
       const req = await fetch(
@@ -46,19 +44,48 @@ const ProfileInfo = ({
   });
 
   const profileData = userProfileData ?? userByUsername;
+  const isFollowing =
+    userProfileData?.followers.find(
+      (user) => user.followingsId === loggedInUser?.id
+    ) ??
+    userByUsername.followers.find(
+      (user) => user.followingsId === loggedInUser?.id
+    );
 
-  const followHandler = () => {
-    startTransition(() => {
-      follow(userByUsername.id).then((data) => {
-        if (data.success) {
-          // setStatus("success");
-        }
-        if (data.error) {
-          // setStatus("error");
-        }
-      });
-    });
-  };
+  const { mutate: followUser } = useMutation({
+    mutationKey: ["follow"],
+    mutationFn: async () => {
+      const req = await fetch(
+        `/api/user/followtest?targetId=${userByUsername.id}`,
+        { method: "PUT" }
+      );
+      const data = await req.json();
+
+      return data;
+    },
+    onMutate: () => {
+      setIsLoading(true);
+    },
+    onSettled: () => {
+      refetch();
+
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 200);
+    },
+  });
+
+  let isFollowingLabel = "";
+
+  if (!isFollowing && !isLoading) {
+    isFollowingLabel = "Follow";
+  } else if (isFollowing && !isLoading) {
+    isFollowingLabel = "Following";
+  }
+
+  const followHandler = useCallback(() => {
+    followUser();
+  }, []);
 
   return (
     <div className="flex">
@@ -108,25 +135,24 @@ const ProfileInfo = ({
                 onClick={followHandler}
                 variant="nav"
                 className={cn(
-                  "px-4 h-8 text-sm rounded-lg",
+                  "px-4 h-8 text-sm rounded-lg relative",
                   !!isFollowing
-                    ? "bg-igElevatedSeparator/50 hover:bg-igElevatedSeparator dark:bg-background-accent dark:hover:bg-background-accent/80"
-                    : "bg-igPrimary hover:bg-igPrimaryHover"
+                    ? "bg-igElevatedSeparator/50 hover:bg-igElevatedSeparator dark:bg-background-accent dark:hover:bg-background-accent/80 w-[96px]"
+                    : "bg-igPrimary hover:bg-igPrimaryHover w-[75px]"
                 )}
               >
-                {isPending ? (
-                  <Image
-                    src="/assets/loading-spinner.svg"
-                    height={18}
-                    width={18}
-                    alt="Loading"
-                    className="animate-spin"
-                  />
-                ) : !isPending && !!isFollowing ? (
-                  "Following"
-                ) : (
-                  "Follow"
-                )}
+                <Image
+                  src={loadingSVG}
+                  height={18}
+                  width={18}
+                  priority
+                  alt="Loading"
+                  className={cn(
+                    "animate-spin absolute",
+                    isLoading ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                {isFollowingLabel}
               </Button>
             )}
             {!myProfile && (
@@ -158,7 +184,6 @@ const ProfileInfo = ({
               </span>
             </Button>
           </Link>
-
           <Link href={`/${userByUsername.username}/following`}>
             <Button
               variant="text"

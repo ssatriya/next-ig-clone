@@ -32,6 +32,7 @@ import ImageEditor from "./image-editor";
 import { Icons } from "@/components/icons";
 import useFilter from "@/hooks/use-filter";
 import { createPost } from "@/actions/post";
+import { useAspectRatio } from "@/hooks/use-aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { useUploadThing } from "@/lib/uploadthing";
 import { usePostModal } from "@/hooks/use-post-modal";
@@ -49,6 +50,7 @@ const CreatePost = () => {
 
   const [_, startTransition] = useTransition();
   const [files, setFiles] = useState<FileWithPreview[]>([]);
+  const { ratio } = useAspectRatio((state) => state);
   const imageRef = files.map(() => createRef<FixedCropperRef>());
   const inputRef = useRef<ElementRef<"input">>(null);
   const [isDragged, setIsDragged] = useState(false);
@@ -176,6 +178,7 @@ const CreatePost = () => {
         createPost({
           caption: editor?.getHTML(),
           images: fileUrl.toString(),
+          aspectRatio: `${ratio.x.toString()}/${ratio.y.toString()}`,
         }).then((data) => {
           if (data.success) {
             setPosting("success");
@@ -282,7 +285,7 @@ const CreatePost = () => {
                       }}
                       variant="text"
                       className={cn(
-                        "font-medium text-igPrimary bg-transparent",
+                        "font-medium text-igPrimary bg-transparent min-w-[72px]",
                         theme === "light" && "hover:text-igGhostButtonHover"
                       )}
                     >

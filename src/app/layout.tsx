@@ -40,7 +40,7 @@ export default async function RootLayout({
       suppressContentEditableWarning={true}
     >
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark">
           <QueryProvider>
             <SessionProvider session={session}>
               <ProgressbarProvider>

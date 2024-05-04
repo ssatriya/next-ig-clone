@@ -26,6 +26,8 @@ import { useCurrentSession } from "@/components/provider/session-provider";
 import { useScrollHistory } from "@/hooks/use-scroll-history";
 import LikeButton from "./button/like-button";
 import LikedModal from "./liked/liked-modal";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type PostItemProps = {
   post: ExtendedPost;
@@ -110,6 +112,12 @@ const PostItem = ({ post }: PostItemProps) => {
     mutate();
   };
 
+  const ratio = post!.aspectRatio.split("/");
+  const ratioX = Number(ratio[0]);
+  const ratioY = Number(ratio[1]);
+
+  const height = (ratioY / ratioX) * 468;
+
   if (!isMounted) {
     return null;
   }
@@ -176,7 +184,10 @@ const PostItem = ({ post }: PostItemProps) => {
             <Icons.moreCircle className="fill-primary group-hover:fill-igSecondaryText" />
           </Button>
         </div>
-        <div className="relative h-auto w-auto flex justify-center items-center rounded-sm">
+        <div
+          className="relative w-[470px] flex justify-center items-center rounded-sm border-[1px]"
+          style={{ height: height + 2 }}
+        >
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y]}
             spaceBetween={50}
@@ -185,7 +196,7 @@ const PostItem = ({ post }: PostItemProps) => {
             draggable={false}
             noSwiping={true}
             pagination={{ clickable: true }}
-            className="rounded-sm dark:border-igElevatedSeparatorV2 border-igElevatedSeparator border-[1px]"
+            className="rounded-sm"
           >
             {images.map((image, index) => (
               <SwiperSlide key={image + index}>
@@ -195,13 +206,25 @@ const PostItem = ({ post }: PostItemProps) => {
                   width={468}
                   priority
                   alt="Post Image"
-                  // sizes="470px"
-                  style={{ width: "auto", height: "auto" }}
+                  className={cn(
+                    "w-auto h-auto",
+                    imageLoading ? "hidden" : "block"
+                  )}
                   onLoad={() => setImageLoading(false)}
                 />
               </SwiperSlide>
             ))}
           </Swiper>
+          {imageLoading && (
+            // <AspectRatio
+            //   ratio={
+            //     Number(post?.aspectRatio[0]) / Number(post?.aspectRatio[2])
+            //   }
+            //   style={{ height }}
+            // >
+            <Skeleton style={{ height }} className="w-full rounded-sm" />
+            // </AspectRatio>
+          )}
         </div>
         <div className="flex justify-between items-center w-full mt-1">
           <div className="flex -ml-2">

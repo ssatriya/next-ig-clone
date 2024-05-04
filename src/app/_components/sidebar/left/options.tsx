@@ -150,7 +150,7 @@ const Options = () => {
                 {dark && <Icons.moon />}
                 {light && <Icons.sun />}
                 <p className="pl-4 text-sm leading-5 font-light">
-                  Switch appearance
+                  Switch appearances
                 </p>
               </div>
             </Button>

@@ -81,22 +81,22 @@ const Feed = ({ posts }: FeedProps) => {
             );
           }
         })}
-      {hasNextPage && isFetchingNextPage && (
-        <li className="pb-6 h-full flex justify-center items-start mt-6">
-          <Image
-            src="/assets/loading-spinner.svg"
-            className="animate-spin"
-            height={24}
-            width={24}
-            alt="loading spinner"
-          />
-        </li>
-      )}
-      {!hasNextPage && !isFetching && !isLoading && (
-        <li className="pb-6 h-full flex justify-center items-start mt-6">
-          <span className="text-sm font-semibold text-igSecondaryText">
-            End of content
-          </span>
+      {hasNextPage && (
+        <li className="flex justify-center items-center h-14">
+          {!isFetching && (
+            <span className="text-sm font-semibold text-igSecondaryText">
+              End of content
+            </span>
+          )}
+          {isFetching && (
+            <Image
+              src="/assets/loading-spinner.svg"
+              className="animate-spin"
+              height={24}
+              width={24}
+              alt="loading spinner"
+            />
+          )}
         </li>
       )}
       {isLoading && <FeedLoading />}
