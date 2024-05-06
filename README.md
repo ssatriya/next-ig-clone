@@ -28,6 +28,8 @@ This project is using Drizzle ORM and Neon PostgreSQL. Some feature from that ve
 ## Known Bug 🐞
 
 ✅ Cropper doesn't work with Swiperjs
+❌ Post modal width too wide portrait image
+❌ Previous post modal content flicker when opening other post modal
 
 ## Getting Started 🚀
 

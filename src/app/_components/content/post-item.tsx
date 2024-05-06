@@ -216,14 +216,7 @@ const PostItem = ({ post }: PostItemProps) => {
             ))}
           </Swiper>
           {imageLoading && (
-            // <AspectRatio
-            //   ratio={
-            //     Number(post?.aspectRatio[0]) / Number(post?.aspectRatio[2])
-            //   }
-            //   style={{ height }}
-            // >
             <Skeleton style={{ height }} className="w-full rounded-sm" />
-            // </AspectRatio>
           )}
         </div>
         <div className="flex justify-between items-center w-full mt-1">
@@ -233,6 +226,7 @@ const PostItem = ({ post }: PostItemProps) => {
               <Button
                 size="icon"
                 className="p-2 h-10 w-10 bg-transparent hover:bg-transparent group"
+                onClick={() => setFromTop(scroll.y)}
               >
                 <Icons.comment className="stroke-primary group-hover:stroke-igSecondaryText" />
               </Button>

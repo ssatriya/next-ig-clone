@@ -35,9 +35,5 @@ export default async function Page({ params }: PageProps) {
     orderBy: (posts, { desc }) => desc(posts.createdAt),
   });
 
-  return (
-    <div>
-      <PostModal post={postData} loggedInUser={user} />
-    </div>
-  );
+  return <PostModal post={postData} loggedInUser={user} />;
 }
