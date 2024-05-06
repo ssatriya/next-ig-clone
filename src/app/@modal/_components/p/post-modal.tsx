@@ -76,7 +76,7 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
   };
 
   const { data: commentsQuery, isLoading } = useQuery({
-    queryKey: ["getComments"],
+    queryKey: ["getComments", post.id],
     queryFn: async () => {
       const res = await fetch(`/api/comment?postId=${post.id}`);
       const { comments } = await res.json();
@@ -123,13 +123,21 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
     mutate();
   };
 
+  const ratio = post.aspectRatio.split(",");
+  const ratioX = ratio[0];
+  const ratioY = ratio[1];
+  const fitWidth = 866 * (Number(ratioX) / Number(ratioY));
+
   return (
     <Dialog defaultOpen>
       <DialogContent
-        className="flex border-none sm:rounded-r-sm lg:max-h-[866px] lg:max-w-[1380px] p-0 gap-0"
+        className="flex justify-center border-none sm:rounded-r-sm lg:max-h-[866px] mx-auto p-0 gap-0"
         onInteractOutside={onDismiss}
       >
-        <div className="relative h-[866px] w-[866px] flex justify-center items-center dark:bg-black bg-zinc-200">
+        <div
+          style={{ width: fitWidth }}
+          className="h-[866px] flex justify-center items-center dark:bg-black bg-zinc-200"
+        >
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y]}
             spaceBetween={50}
@@ -139,7 +147,8 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
             noSwiping={true}
             pagination={{ clickable: true }}
             // onSlideChange={(swiper) => setCurrentImage(swiper.activeIndex)}
-            className="h-[866px] w-[866px]"
+            className="h-[866px] w-[692.8px]"
+            style={{ width: fitWidth }}
           >
             {images?.map((image, index) => (
               <SwiperSlide key={image + index}>
@@ -154,8 +163,8 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
             ))}
           </Swiper>
         </div>
-        <div className="flex flex-col w-full relative border-l dark:border-l-igSeparator border-l-igElevatedSeparator">
-          <Container className="border-b dark:border-b-igSeparator border-b-igElevatedSeparator">
+        <div className="flex flex-col border-l dark:border-l-igSeparator border-l-igElevatedSeparator">
+          <Container className="w-[514px] border-b dark:border-b-igSeparator border-b-igElevatedSeparator">
             <div className="flex justify-between items-center w-full h-fit">
               <div className="flex items-center gap-3">
                 {/* <PostUserTooltip post={post} userId={post.userId}> */}

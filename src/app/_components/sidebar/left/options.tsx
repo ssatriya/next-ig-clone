@@ -1,5 +1,5 @@
 import { useToggle } from "ahooks";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { useTheme } from "next-themes";
 import { ChevronLeft } from "lucide-react";
 
@@ -22,7 +22,10 @@ const Options = () => {
     isDarkModeOpen,
     { toggle: toggleDarkModeOpen, set: setToggleDarkModeOpen },
   ] = useToggle();
-  const [checkedDarkMode, { toggle: toggleCheckedDarkMode }] = useToggle();
+  const [
+    checkedDarkMode,
+    { toggle: toggleCheckedDarkMode, set: setToggleCheckedDarkMode },
+  ] = useToggle();
 
   const dark = theme === "dark";
   const light = theme === "light";
@@ -32,6 +35,10 @@ const Options = () => {
       logout();
     });
   };
+
+  useEffect(() => {
+    setToggleCheckedDarkMode(dark ? true : false);
+  }, [dark, setToggleCheckedDarkMode]);
 
   return (
     <Popover>
@@ -83,6 +90,7 @@ const Options = () => {
             <div className="p-2 w-full h-full">
               <div
                 onClick={() => {
+                  console.log("dark mode button");
                   toggleCheckedDarkMode();
                   setTheme(!checkedDarkMode ? "dark" : "light");
                 }}
