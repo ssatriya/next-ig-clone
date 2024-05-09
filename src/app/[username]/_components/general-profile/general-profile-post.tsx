@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 import { Copy } from "lucide-react";
-import { memo, useState } from "react";
+import { memo } from "react";
 
 type GeneralProfilePostProps = {
   postImages: string[];

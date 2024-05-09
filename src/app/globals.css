@@ -96,6 +96,13 @@ p:empty::before {
   width: 62px;
 }
 
+.no-posts {
+  background-repeat: no-repeat;
+  background-position: -128px -269px;
+  height: 62px;
+  width: 62px;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

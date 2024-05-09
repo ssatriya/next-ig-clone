@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { UserSelectType } from "@/lib/db/schema";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import Link from "next/link";
 import { useTransition } from "react";
 
 type SuggestedUserProps = {
@@ -41,7 +42,9 @@ const SuggestedUser = ({ user }: SuggestedUserProps) => {
           <AvatarFallback>ss</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <p className="font-semibold text-sm">{user.username}</p>
+          <Link href={`/${user.username}`}>
+            <p className="font-semibold text-sm">{user.username}</p>
+          </Link>
           <p className="text-xs font-medium text-igSecondaryText">
             {user.name}
           </p>

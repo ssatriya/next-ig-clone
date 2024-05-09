@@ -45,9 +45,10 @@ const LikeButton = ({ loggedInUserId, post }: LikeButtonProps) => {
         method: "POST",
         body: JSON.stringify({ postId: post.id }),
       });
-
-      const data = await res.json();
-      return data;
+      return res.ok;
+    },
+    onSuccess: () => {
+      setIsLikedLocal((prev) => !prev);
     },
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ["likesQuery", post.id] });
@@ -78,6 +79,7 @@ const LikeButton = ({ loggedInUserId, post }: LikeButtonProps) => {
       if (error && previousLikes) {
         setLocalLike(previousLikes);
       }
+      setIsLikedLocal((prev) => prev);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["likesQuery", post.id] });
@@ -94,14 +96,16 @@ const LikeButton = ({ loggedInUserId, post }: LikeButtonProps) => {
     );
   }
 
+  const [isLikedLocal, setIsLikedLocal] = useState(isLiked);
+
   return (
     <Button
       disabled={isPending}
       onClick={() => addLike()}
       size="icon"
-      className="p-2 h-10 w-10 bg-transparent hover:bg-transparent group"
+      className="p-2 h-10 w-10 bg-transparent hover:bg-transparent group disabled:opacity-100"
     >
-      {isLiked ? (
+      {isLikedLocal ? (
         <Icons.liked className="fill-red-500" />
       ) : (
         <Icons.like className="fill-primary group-hover:fill-igSecondaryText" />

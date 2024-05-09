@@ -111,7 +111,6 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
 
       return res;
     },
-    onError: (error) => {},
     onSuccess: () => {
       editor?.commands.clearContent();
       queryClient.invalidateQueries({ queryKey: ["getComments"] });
@@ -148,7 +147,7 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
             pagination={{ clickable: true }}
             // onSlideChange={(swiper) => setCurrentImage(swiper.activeIndex)}
             className="h-[866px] w-[692.8px]"
-            style={{ width: fitWidth }}
+            style={{ width: `${fitWidth}px` }}
           >
             {images?.map((image, index) => (
               <SwiperSlide key={image + index}>
@@ -163,7 +162,7 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
             ))}
           </Swiper>
         </div>
-        <div className="flex flex-col border-l dark:border-l-igSeparator border-l-igElevatedSeparator">
+        <div className="flex flex-col border-l dark:border-l-igSeparator border-l-igElevatedSeparator dark:bg-black bg-white">
           <Container className="w-[514px] border-b dark:border-b-igSeparator border-b-igElevatedSeparator">
             <div className="flex justify-between items-center w-full h-fit">
               <div className="flex items-center gap-3">

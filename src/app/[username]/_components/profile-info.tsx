@@ -4,15 +4,14 @@ import { User } from "lucia";
 import Image from "next/image";
 import { useCallback, useMemo, useState } from "react";
 
-import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { ExtendedPost, ExtendedUser } from "@/types/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { useMutation, useQuery } from "@tanstack/react-query";
-
-import loadingSVG from "../../../../public/assets/loading-spinner.svg";
+import FollowingButton from "./following-button";
+import FollowButton from "./follow-button";
 
 type ProfileInfoProps = {
   userPosts: ExtendedPost[];
@@ -28,7 +27,7 @@ const ProfileInfo = ({
   const [isLoading, setIsLoading] = useState(false);
   const myProfile = useMemo(
     () => (loggedInUser ? loggedInUser.id === userByUsername.id : false),
-    [loggedInUser]
+    [loggedInUser, userByUsername]
   );
 
   const { data: userProfileData, refetch } = useQuery({
@@ -52,40 +51,39 @@ const ProfileInfo = ({
       (user) => user.followingsId === loggedInUser?.id
     );
 
-  const { mutate: followUser } = useMutation({
+  const [isFollowingLocal, setIsFollowingLocal] = useState(!!isFollowing);
+
+  const { mutate: followHandler } = useMutation({
     mutationKey: ["follow"],
     mutationFn: async () => {
+      setIsLoading(true);
+
       const req = await fetch(
         `/api/user/followtest?targetId=${userByUsername.id}`,
         { method: "PUT" }
       );
-      const data = await req.json();
-
-      return data;
+      return req.ok;
     },
-    onMutate: () => {
-      setIsLoading(true);
+    onSuccess: () => {
+      setIsLoading(false);
+      setIsFollowingLocal((prev) => !prev);
     },
     onSettled: () => {
       refetch();
-
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 200);
+    },
+    onError: () => {
+      setIsLoading(false);
+      setIsFollowingLocal((prev) => prev);
     },
   });
 
   let isFollowingLabel = "";
 
-  if (!isFollowing && !isLoading) {
+  if (!isLoading && !isFollowingLocal) {
     isFollowingLabel = "Follow";
-  } else if (isFollowing && !isLoading) {
+  } else if (!isLoading && isFollowingLocal) {
     isFollowingLabel = "Following";
   }
-
-  const followHandler = useCallback(() => {
-    followUser();
-  }, []);
 
   return (
     <div className="flex">
@@ -131,29 +129,22 @@ const ProfileInfo = ({
               </Button>
             )}
             {!myProfile && (
-              <Button
-                onClick={followHandler}
-                variant="nav"
-                className={cn(
-                  "px-4 h-8 text-sm rounded-lg relative",
-                  !!isFollowing
-                    ? "bg-igElevatedSeparator/50 hover:bg-igElevatedSeparator dark:bg-background-accent dark:hover:bg-background-accent/80 w-[96px]"
-                    : "bg-igPrimary hover:bg-igPrimaryHover w-[75px]"
+              <>
+                {isFollowingLocal && (
+                  <FollowingButton
+                    followHandler={followHandler}
+                    isLoading={isLoading}
+                    buttonLabel={isFollowingLabel}
+                  />
                 )}
-              >
-                <Image
-                  src={loadingSVG}
-                  height={18}
-                  width={18}
-                  priority
-                  alt="Loading"
-                  className={cn(
-                    "animate-spin absolute",
-                    isLoading ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {isFollowingLabel}
-              </Button>
+                {!isFollowingLocal && (
+                  <FollowButton
+                    followHandler={followHandler}
+                    isLoading={isLoading}
+                    buttonLabel={isFollowingLabel}
+                  />
+                )}
+              </>
             )}
             {!myProfile && (
               <Button
@@ -171,13 +162,13 @@ const ProfileInfo = ({
           </div>
         </div>
         <div className="flex gap-12 items-center">
-          <span className="text-base font-bold">
+          <span className="text-base font-bold tabular-nums">
             {userPosts.length}
             <span className="font-normal"> posts</span>
           </span>
           <Link href={`/${userByUsername.username}/followers`}>
             <Button variant="text" className="h-fit w-fit p-0">
-              <span className="text-base font-bold">
+              <span className="text-base font-bold tabular-nums">
                 {/* {userByUsername.followers.length} */}
                 {profileData.followers.length}
                 <span className="font-normal"> followers</span>
@@ -189,7 +180,7 @@ const ProfileInfo = ({
               variant="text"
               className="h-fit w-fit p-0 text-base font-normal"
             >
-              <span className="text-base font-bold">
+              <span className="text-base font-bold tabular-nums">
                 {/* {userByUsername.followings.length} */}
                 {profileData.followings.length}
                 <span className="font-normal"> following</span>

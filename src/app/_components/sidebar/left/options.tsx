@@ -90,7 +90,6 @@ const Options = () => {
             <div className="p-2 w-full h-full">
               <div
                 onClick={() => {
-                  console.log("dark mode button");
                   toggleCheckedDarkMode();
                   setTheme(!checkedDarkMode ? "dark" : "light");
                 }}
