@@ -56,12 +56,12 @@ const Feed = ({ posts }: FeedProps) => {
   const feedPosts: ExtendedPost[] =
     data?.pages.flatMap((page) => page) ?? posts;
 
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: fromTop });
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useLayoutEffect(() => {
+  //   requestAnimationFrame(() => {
+  //     window.scrollTo({ top: fromTop });
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <ul className="w-[630px] h-full flex flex-col items-center">

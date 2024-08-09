@@ -5,8 +5,6 @@ export default function FeedLoading() {
     <div className="flex flex-col gap-6">
       <FeedLoading.Skeleton />
       <FeedLoading.Skeleton />
-      <FeedLoading.Skeleton />
-      <FeedLoading.Skeleton />
     </div>
   );
 }

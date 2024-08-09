@@ -1,7 +1,7 @@
-import { FilterOptions } from "@/types";
+// import { FilterOptions } from "@/types";
 import FilterItem from "./filter-item";
 
-const filterOptions: FilterOptions[] = [
+const filterOptions: any[] = [
   {
     alt: "Aden filter",
     src: "/filters/aden.jpg",

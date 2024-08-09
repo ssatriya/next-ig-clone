@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -45,6 +46,7 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
   } = useCurrentSession();
   const { theme } = useTheme();
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit,
       Placeholder.configure({
@@ -311,34 +313,57 @@ export default function PostModal({ post, loggedInUser }: PostModalProps) {
                 </div>
               </Container>
               <Container className="pt-0">
-                {likesData.length > 0 && (
-                  <p className="text-sm">
-                    Liked by{" "}
-                    {/* <Link href={`/${likesData[0].user?.username}`}> */}
-                    <span className="font-semibold">
-                      {likesData[0].user?.username}
-                    </span>{" "}
-                    {/* </Link> */}
-                    {likesData.length > 1 && (
-                      <span>
-                        and{" "}
-                        <a
-                          href={`/p/${post.id}/liked_by`}
-                          target="_blank"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            // setOpenLikedModal(true);
-                          }}
-                          role="link"
-                          tabIndex={0}
-                          className="w-fit h-fit p-0 hover:no-underline"
-                        >
-                          <span className="font-semibold">others</span>
-                        </a>
-                      </span>
-                    )}
-                  </p>
-                )}
+                <AnimatePresence initial={false} mode="popLayout">
+                  {likesData.length < 1 && (
+                    <motion.p
+                      key="notlike"
+                      initial={{ y: -20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: 20, opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="text-sm text-igSecondaryText"
+                    >
+                      Be the first one to like this post
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+                <AnimatePresence initial={false} mode="popLayout">
+                  {likesData.length > 0 && (
+                    <motion.p
+                      key="like"
+                      initial={{ y: -20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: 20, opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="text-sm"
+                    >
+                      Liked by{" "}
+                      {/* <Link href={`/${likesData[0].user?.username}`}> */}
+                      <span className="font-semibold">
+                        {likesData[0].user?.username}
+                      </span>{" "}
+                      {/* </Link> */}
+                      {likesData.length > 1 && (
+                        <span>
+                          and{" "}
+                          <a
+                            href={`/p/${post.id}/liked_by`}
+                            target="_blank"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              // setOpenLikedModal(true);
+                            }}
+                            role="link"
+                            tabIndex={0}
+                            className="w-fit h-fit p-0 hover:no-underline"
+                          >
+                            <span className="font-semibold">others</span>
+                          </a>
+                        </span>
+                      )}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
                 {openLikedModal && (
                   <LikedModal
                     open={openLikedModal}

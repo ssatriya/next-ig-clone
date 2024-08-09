@@ -7,7 +7,8 @@ body {
 }
 
 .tiptap p.is-editor-empty:first-child::before {
-  color: rgb(115, 115, 115);
+  /* color: rgb(115, 115, 115); */
+  color: rgb(150, 150, 150);
   content: attr(data-placeholder);
   float: left;
   height: 0;

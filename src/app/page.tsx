@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 
 import FeedLoading from "./feed-loading";
+import FeedWrapper from "./feed-wrapper";
 import LoginForm from "@/components/auth/login-form";
 import { validateRequest } from "@/lib/auth/validate-request";
 import RightSidebar from "./_components/sidebar/right/right-sidebar";
-import FeedWrapper from "./feed-wrapper";
 
 export default async function HomePage() {
   const { user } = await validateRequest();

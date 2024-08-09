@@ -129,6 +129,7 @@ const CreatePost = () => {
   }, [files]);
 
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit,
       Placeholder.configure({

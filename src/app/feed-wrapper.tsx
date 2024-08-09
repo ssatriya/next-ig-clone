@@ -1,9 +1,7 @@
 import db from "@/lib/db";
+import { User } from "lucia";
 import { ExtendedPost } from "@/types/db";
 import Feed from "./_components/content/feed";
-import { User } from "lucia";
-
-// export const revalidate = 0;
 
 async function getPosts(userId: string) {
   // I'am following this user
@@ -45,6 +43,5 @@ type FeedWrapperProps = {
 
 export default async function FeedWrapper({ user }: FeedWrapperProps) {
   const postsData = await getPosts(user.id);
-
   return <Feed posts={postsData} />;
 }

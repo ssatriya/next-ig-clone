@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useToggle } from "ahooks";
 import Image from "next/image";
+import { useToggle } from "ahooks";
+import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import useMeasure from "react-use-measure";
 import { useState, useEffect } from "react";
@@ -61,6 +62,7 @@ const PostItem = ({ post }: PostItemProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const editor = useEditor({
+    immediatelyRender: false,
     onCreate() {
       setIsLoading(false);
     },
@@ -117,6 +119,12 @@ const PostItem = ({ post }: PostItemProps) => {
   const ratioY = Number(ratio[1]);
 
   const height = (ratioY / ratioX) * 468;
+
+  let usernameWidth = usernameBounds.width + 6;
+
+  if (!usernameWidth) {
+    return null;
+  }
 
   if (!isMounted) {
     return null;
@@ -216,7 +224,14 @@ const PostItem = ({ post }: PostItemProps) => {
             ))}
           </Swiper>
           {imageLoading && (
-            <Skeleton style={{ height }} className="w-full rounded-sm" />
+            <AspectRatio
+              ratio={
+                Number(post?.aspectRatio[0]) / Number(post?.aspectRatio[2])
+              }
+              style={{ height }}
+            >
+              <Skeleton style={{ height }} className="w-full rounded-sm" />
+            </AspectRatio>
           )}
         </div>
         <div className="flex justify-between items-center w-full mt-1">
@@ -247,34 +262,57 @@ const PostItem = ({ post }: PostItemProps) => {
           </Button>
         </div>
         <div className="flex flex-col gap-2 mt-1">
-          {post.like.length > 0 && (
-            <p className="text-sm">
-              Liked by{" "}
-              <Link href={`/${post.like[0].user?.username}`}>
-                <span className="font-semibold">
-                  {post.like[0].user?.username}
-                </span>{" "}
-              </Link>
-              {post.like.length > 1 && (
-                <span>
-                  and{" "}
-                  <a
-                    href={`/p/${post.id}/liked_by`}
-                    target="_blank"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setOpenLikedModal(true);
-                    }}
-                    role="link"
-                    tabIndex={0}
-                    className="w-fit h-fit p-0 hover:no-underline"
-                  >
-                    <span className="font-semibold">others</span>
-                  </a>
-                </span>
-              )}
-            </p>
-          )}
+          <AnimatePresence initial={false} mode="popLayout">
+            {post.like.length < 1 && (
+              <motion.p
+                key="notlike"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="text-sm text-igSecondaryText"
+              >
+                Be the first one to like this post
+              </motion.p>
+            )}
+          </AnimatePresence>
+          <AnimatePresence initial={false} mode="popLayout">
+            {post.like.length > 0 && (
+              <motion.p
+                key="like"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="text-sm"
+              >
+                Liked by{" "}
+                <Link href={`/${post.like[0].user?.username}`}>
+                  <span className="font-semibold">
+                    {post.like[0].user?.username}
+                  </span>{" "}
+                </Link>
+                {post.like.length > 1 && (
+                  <span>
+                    and{" "}
+                    <a
+                      href={`/p/${post.id}/liked_by`}
+                      target="_blank"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setOpenLikedModal(true);
+                      }}
+                      role="link"
+                      tabIndex={0}
+                      className="w-fit h-fit p-0 hover:no-underline"
+                    >
+                      <span className="font-semibold">others</span>
+                    </a>
+                  </span>
+                )}
+              </motion.p>
+            )}
+          </AnimatePresence>
           {openLikedModal && (
             <LikedModal
               open={openLikedModal}
@@ -282,9 +320,12 @@ const PostItem = ({ post }: PostItemProps) => {
               postId={post.id}
             />
           )}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col">
             <div className="relative text-sm inline-flex gap-2 h-full w-auto">
-              <span ref={usernameRef} className="font-bold h-fit absolute">
+              <span
+                ref={usernameRef}
+                className="font-bold h-fit absolute select-none"
+              >
                 <Link
                   onClick={() => setFromTop(scroll.y)}
                   href={`/${post.user.username}`}
@@ -301,13 +342,13 @@ const PostItem = ({ post }: PostItemProps) => {
                 )}
               >
                 {post.caption && (
-                  <p
+                  <article
                     dangerouslySetInnerHTML={{
                       __html: post.caption,
                     }}
                     ref={ref}
                     style={{
-                      textIndent: `calc(${usernameBounds.width + 6}px)`,
+                      textIndent: `calc(${usernameWidth}px)`,
                     }}
                   />
                 )}
@@ -320,27 +361,29 @@ const PostItem = ({ post }: PostItemProps) => {
                 size="sm"
                 variant="link"
               >
-                more
+                ... more
               </Button>
             )}
-            {post.comment.length > 0 && (
-              <Link href={`/p/${post.id}`}>
-                <Button
-                  className="flex justify-start p-0 h-[18px] text-igSecondaryText hover:no-underline w-fit"
-                  size="sm"
-                  variant="link"
-                >
-                  View all {post.comment.length} comments
-                </Button>
-              </Link>
-            )}
-            <CommentEditor
-              isPending={isPending}
-              editor={editor}
-              isLoading={isLoading}
-              onSelect={onSelect}
-              handleComment={handleComment}
-            />
+            <div className="flex flex-col gap-2 mt-2">
+              {post.comment.length > 0 && (
+                <Link href={`/p/${post.id}`}>
+                  <Button
+                    className="flex justify-start p-0 h-[18px] text-igSecondaryText hover:no-underline w-fit"
+                    size="sm"
+                    variant="link"
+                  >
+                    View all {post.comment.length} comments
+                  </Button>
+                </Link>
+              )}
+              <CommentEditor
+                isPending={isPending}
+                editor={editor}
+                isLoading={isLoading}
+                onSelect={onSelect}
+                handleComment={handleComment}
+              />
+            </div>
           </div>
         </div>
       </div>

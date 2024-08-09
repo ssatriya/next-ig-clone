@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Icons } from "@/components/icons";
@@ -13,6 +14,10 @@ import { generateId } from "lucia";
 type LikeButtonProps = {
   loggedInUserId: string;
   post: ExtendedPost;
+};
+
+const variants = {
+  start: { scale: 1.4, duration: 0.3 },
 };
 
 const LikeButton = ({ loggedInUserId, post }: LikeButtonProps) => {
@@ -47,10 +52,11 @@ const LikeButton = ({ loggedInUserId, post }: LikeButtonProps) => {
       });
       return res.ok;
     },
-    onSuccess: () => {
-      setIsLikedLocal((prev) => !prev);
-    },
+    // onSuccess: () => {
+    //   setIsLikedLocal((prev) => !prev);
+    // },
     onMutate: async () => {
+      setIsLikedLocal((prev) => !prev);
       await queryClient.cancelQueries({ queryKey: ["likesQuery", post.id] });
 
       const likedIndex = localLike.findIndex(
@@ -99,18 +105,19 @@ const LikeButton = ({ loggedInUserId, post }: LikeButtonProps) => {
   const [isLikedLocal, setIsLikedLocal] = useState(isLiked);
 
   return (
-    <Button
+    <motion.button
+      whileTap={!isLikedLocal ? "start" : undefined}
+      variants={variants}
       disabled={isPending}
       onClick={() => addLike()}
-      size="icon"
       className="p-2 h-10 w-10 bg-transparent hover:bg-transparent group disabled:opacity-100"
     >
       {isLikedLocal ? (
-        <Icons.liked className="fill-red-500" />
+        <Icons.liked className="fill-red-500 " />
       ) : (
         <Icons.like className="fill-primary group-hover:fill-igSecondaryText" />
       )}
-    </Button>
+    </motion.button>
   );
 };
 export default LikeButton;
