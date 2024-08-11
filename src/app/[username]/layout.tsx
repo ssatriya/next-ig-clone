@@ -67,8 +67,6 @@ export default async function ProfileLayout({
     orderBy: (posts, { desc }) => desc(posts.createdAt),
   });
 
-  console.log(userByUsername);
-
   return (
     <div className="w-[975px] py-[38px] px-5 space-y-14 flex flex-col min-h-screen">
       <ProfileInfo
