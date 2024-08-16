@@ -7,7 +7,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import PostItem from "./post-item";
 import { ExtendedPost } from "@/types/db";
-import FeedLoading from "@/app/feed-loading";
+import { SplashScreen } from "../splash-screen";
 import { useScrollHistory } from "@/hooks/use-scroll-history";
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 
@@ -102,7 +102,8 @@ const Feed = ({ posts }: FeedProps) => {
           </li>
         )}
       </ul>
-      {isLoading && <FeedLoading />}
+      {/* {isLoading && <FeedLoading />} */}
+      {isLoading && <SplashScreen />}
     </div>
   );
 };
