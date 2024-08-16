@@ -1,7 +1,8 @@
 import locale from "date-fns/locale/id";
 import { twMerge } from "tailwind-merge";
 import { type ClassValue, clsx } from "clsx";
-import { formatDistanceToNowStrict, parseISO, format } from "date-fns";
+// import { getPlaiceholder } from "plaiceholder";
+import { formatDistanceToNowStrict } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -62,3 +63,17 @@ export function formatReadableDate(date: Date): string {
     year: "numeric",
   });
 }
+
+// export async function getDominantColor(remoteSrc: string) {
+//   try {
+//     const buffer = await fetch(remoteSrc).then(async (res) =>
+//       Buffer.from(await res.arrayBuffer())
+//     );
+
+//     const { base64 } = await getPlaiceholder(buffer);
+
+//     return base64;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }

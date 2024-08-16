@@ -64,43 +64,46 @@ const Feed = ({ posts }: FeedProps) => {
   // }, []);
 
   return (
-    <ul className="w-[630px] h-full flex flex-col items-center">
-      {feedPosts &&
-        feedPosts.map((post, index) => {
-          if (index === feedPosts.length - 1) {
-            return (
-              <li key={post.id} ref={ref} className="list-none">
-                <PostItem post={post} />
-              </li>
-            );
-          } else {
-            return (
-              <li key={post.id} className="list-none">
-                <PostItem post={post} />
-              </li>
-            );
-          }
-        })}
-      {hasNextPage && (
-        <li className="flex justify-center items-center h-14">
-          {!isFetching && (
-            <span className="text-sm font-semibold text-igSecondaryText">
-              End of content
-            </span>
-          )}
-          {isFetching && (
-            <Image
-              src="/assets/loading-spinner.svg"
-              className="animate-spin"
-              height={24}
-              width={24}
-              alt="loading spinner"
-            />
-          )}
-        </li>
-      )}
+    <div className="flex flex-col">
+      <ul className="w-[630px] h-full flex flex-col items-center">
+        {feedPosts &&
+          feedPosts.map((post, index) => {
+            if (index === feedPosts.length - 1) {
+              return (
+                <li key={post.id} ref={ref} className="list-none">
+                  <PostItem post={post} />
+                </li>
+              );
+            } else {
+              return (
+                <li key={post.id} className="list-none">
+                  <PostItem post={post} />
+                </li>
+              );
+            }
+          })}
+
+        {hasNextPage && (
+          <li className="flex justify-center items-center h-14">
+            {!isFetching && (
+              <span className="text-sm font-semibold text-igSecondaryText">
+                End of content
+              </span>
+            )}
+            {isFetching && (
+              <Image
+                src="/assets/loading-spinner.svg"
+                className="animate-spin"
+                height={24}
+                width={24}
+                alt="loading spinner"
+              />
+            )}
+          </li>
+        )}
+      </ul>
       {isLoading && <FeedLoading />}
-    </ul>
+    </div>
   );
 };
 export default Feed;

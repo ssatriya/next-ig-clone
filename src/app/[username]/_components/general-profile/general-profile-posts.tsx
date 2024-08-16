@@ -1,9 +1,10 @@
 "use client";
 
+import { memo } from "react";
+import { useRouter } from "next/navigation";
+
 import { ExtendedPost } from "@/types/db";
 import GeneralProfilePost from "./general-profile-post";
-import { useRouter } from "next/navigation";
-import { memo, useCallback, useMemo, useState } from "react";
 
 type GeneralProfilePostsProps = {
   userPosts: ExtendedPost[];

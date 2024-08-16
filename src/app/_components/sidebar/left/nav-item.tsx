@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 
 type ButtonProps = {
   type: "button";
@@ -18,8 +17,6 @@ type AnchorProps = {
 };
 
 const NavItem = (props: ButtonProps | AnchorProps) => {
-  const router = useRouter();
-
   if (props.type === "link") {
     const { href, children } = props as AnchorProps;
     return (

@@ -1,9 +1,10 @@
 "use client";
 
-import { ExtendedPost, ExtendedUser } from "@/types/db";
 import { User } from "lucia";
-import PersonalProfilePosts from "./personal-profile/personal-profile-posts";
+
+import { ExtendedPost, ExtendedUser } from "@/types/db";
 import GeneralProfilePosts from "./general-profile/general-profile-posts";
+import PersonalProfilePosts from "./personal-profile/personal-profile-posts";
 
 type PostsTabsProps = {
   userPosts: ExtendedPost[];

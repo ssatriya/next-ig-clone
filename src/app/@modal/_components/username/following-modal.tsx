@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -10,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import UserFollowingItem from "./user-following-item";
 import { UserFollowersPostWithIsFollowing } from "@/types/db";
-import { useEffect, useState } from "react";
+import useMeasure from "react-use-measure";
 
 type FollowingModalProps = {
   username: string;
@@ -23,6 +25,8 @@ const FollowingModal = ({
   loggedInUserId,
   reload,
 }: FollowingModalProps) => {
+  const [ref, { height }] = useMeasure();
+  const [contentRef, { contentHeight }] = useMeasure();
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const [open, setOpen] = useState(true);
@@ -56,6 +60,7 @@ const FollowingModal = ({
       <DialogContent
         onInteractOutside={onDismiss}
         className="w-[400px] border-none dark:bg-igSeparator bg-background p-0 sm:rounded-xl gap-0"
+        ref={contentRef}
       >
         <div className="flex w-full h-[43px] items-center justify-between border-b-[1px] dark:border-igElevatedSeparatorV2 border-igElevatedSeparator">
           <div className="h-[43] w-[48px] block bg-transparent"></div>

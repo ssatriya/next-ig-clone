@@ -1,3 +1,5 @@
+// import withPlaiceholder from "@plaiceholder/next";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -7,6 +9,9 @@ const nextConfig = {
       },
       {
         hostname: "lh3.googleusercontent.com",
+      },
+      {
+        hostname: "wsrv.nl",
       },
     ],
   },

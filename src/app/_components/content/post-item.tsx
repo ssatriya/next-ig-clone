@@ -12,23 +12,23 @@ import StarterKit from "@tiptap/starter-kit";
 import { useWindowScroll } from "@mantine/hooks";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Placeholder from "@tiptap/extension-placeholder";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
 
 import { ExtendedPost } from "@/types/db";
 import { Icons } from "@/components/icons";
+import LikedModal from "./liked/liked-modal";
+import LikeButton from "./button/like-button";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import CommentEditor from "@/components/comment-editor";
-import PostUserTooltip from "@/components/post-user-tooltip";
-import { cn, formatReadableDate, formatTimeToNow } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useCurrentSession } from "@/components/provider/session-provider";
-import { useScrollHistory } from "@/hooks/use-scroll-history";
-import LikeButton from "./button/like-button";
-import LikedModal from "./liked/liked-modal";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Skeleton } from "@/components/ui/skeleton";
+import PostUserTooltip from "@/components/post-user-tooltip";
+import { useScrollHistory } from "@/hooks/use-scroll-history";
+import { cn, formatReadableDate, formatTimeToNow } from "@/lib/utils";
+import { useCurrentSession } from "@/components/provider/session-provider";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type PostItemProps = {
   post: ExtendedPost;
@@ -114,13 +114,18 @@ const PostItem = ({ post }: PostItemProps) => {
     mutate();
   };
 
+  const width = 468;
   const ratio = post!.aspectRatio.split("/");
   const ratioX = Number(ratio[0]);
   const ratioY = Number(ratio[1]);
 
-  const height = (ratioY / ratioX) * 468;
+  const height = (ratioY / ratioX) * width;
 
   let usernameWidth = usernameBounds.width + 6;
+
+  if (!height) {
+    return null;
+  }
 
   if (!usernameWidth) {
     return null;
@@ -194,7 +199,9 @@ const PostItem = ({ post }: PostItemProps) => {
         </div>
         <div
           className="relative w-[470px] flex justify-center items-center rounded-sm border-[1px]"
-          style={{ height: height + 2 }}
+          style={{
+            height: height + 2,
+          }}
         >
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -208,18 +215,20 @@ const PostItem = ({ post }: PostItemProps) => {
           >
             {images.map((image, index) => (
               <SwiperSlide key={image + index}>
-                <Image
-                  src={image}
-                  height={468}
-                  width={468}
-                  priority
-                  alt="Post Image"
-                  className={cn(
-                    "w-auto h-auto",
-                    imageLoading ? "hidden" : "block"
-                  )}
-                  onLoad={() => setImageLoading(false)}
-                />
+                <div className="h-auto w-auto">
+                  <Image
+                    src={image}
+                    height={0}
+                    width={468}
+                    priority
+                    alt="Post Image"
+                    className={cn(imageLoading ? "hidden" : "block")}
+                    onLoad={() => setImageLoading(false)}
+                    style={{
+                      height: height,
+                    }}
+                  />
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
