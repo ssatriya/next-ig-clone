@@ -16,7 +16,6 @@ type FeedProps = {
 };
 
 const Feed = ({ posts }: FeedProps) => {
-  const { fromTop } = useScrollHistory((state) => state);
   const lastPostRef = useRef();
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
@@ -102,7 +101,6 @@ const Feed = ({ posts }: FeedProps) => {
           </li>
         )}
       </ul>
-      {/* {isLoading && <FeedLoading />} */}
       {isLoading && <SplashScreen />}
     </div>
   );

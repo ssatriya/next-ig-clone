@@ -18,7 +18,7 @@ const ProfileHightlight = ({
     : false;
 
   return (
-    <div className="h-[130px] px-7 flex items-center">
+    <div className="h-[130px] px-7 flex items-center w-[975px]">
       <div
         role="menuitem"
         className="px-[15px] py-[10px] flex flex-col items-center justify-center gap-3 cursor-pointer"

@@ -8,17 +8,21 @@ import { CreatePostPayload } from "@/lib/schema";
 import { validateRequest } from "@/lib/auth/validate-request";
 
 export async function createPost(values: CreatePostPayload) {
-  const { user } = await validateRequest();
+  try {
+    const { user } = await validateRequest();
 
-  if (!user) {
-    return { error: "Unauthorized" };
+    if (!user) {
+      throw new Error("Unauthorized");
+    }
+
+    await db.insert(posts).values({
+      ...values,
+      userId: user.id,
+    });
+
+    revalidatePath("/");
+    return { success: "Post created" };
+  } catch (error) {
+    return { error: "Failed to create post. Please try again later." };
   }
-
-  await db.insert(posts).values({
-    ...values,
-    userId: user.id,
-  });
-
-  revalidatePath("/");
-  return { success: "Post created" };
 }

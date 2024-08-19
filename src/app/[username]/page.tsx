@@ -1,6 +1,6 @@
 import db from "@/lib/db";
-import { validateRequest } from "@/lib/auth/validate-request";
 import PostsTabs from "./_components/posts-tabs";
+import { validateRequest } from "@/lib/auth/validate-request";
 
 type ProfilePageProps = {
   params: {
@@ -8,12 +8,12 @@ type ProfilePageProps = {
   };
 };
 
-export const revalidate = 0;
+// export const revalidate = 0;
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
   const { user: loggedInUser } = await validateRequest();
 
-  if (!loggedInUser) return;
+  // if (!loggedInUser) return;
 
   const [userByUsername] = await db.query.users.findMany({
     with: {

@@ -86,7 +86,7 @@ const ProfileInfo = ({
   }
 
   return (
-    <div className="flex">
+    <div className="flex w-[975px]">
       <div className="w-[316px] flex justify-center">
         <Avatar className="h-[150px] w-[150px] border-[3px] border-transparent flex items-center justify-center mr-[30px]">
           <AvatarImage src={userByUsername.image || ""} asChild>
@@ -146,7 +146,7 @@ const ProfileInfo = ({
                 )}
               </>
             )}
-            {!myProfile && (
+            {!myProfile && loggedInUser && (
               <Button
                 variant="nav"
                 className="px-4 h-8 bg-igElevatedSeparator/50 hover:bg-igElevatedSeparator dark:bg-background-accent dark:hover:bg-background-accent/80 text-sm rounded-lg"
@@ -154,7 +154,7 @@ const ProfileInfo = ({
                 Message
               </Button>
             )}
-            {!myProfile && (
+            {!myProfile && loggedInUser && (
               <Button variant="text" size="icon" className="h-fit w-fit ml-2">
                 <Icons.moreCircleLarge />
               </Button>

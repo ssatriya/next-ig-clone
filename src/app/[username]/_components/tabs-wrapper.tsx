@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { User } from "lucia";
 
 import { cn } from "@/lib/utils";
 import { ExtendedUser } from "@/types/db";
@@ -11,13 +12,18 @@ import { Button } from "@/components/ui/button";
 type TabsWrapperProps = {
   children: React.ReactNode;
   userByUsername: ExtendedUser;
+  loggedInUser: User | null;
 };
 
-const TabsWrapper = ({ children, userByUsername }: TabsWrapperProps) => {
+const TabsWrapper = ({
+  children,
+  userByUsername,
+  loggedInUser,
+}: TabsWrapperProps) => {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-col flex-1 w-[935px]">
       <div className="flex gap-10 justify-center w-full border-t-[1px] h-[53px]">
         <Link href={`/${userByUsername.username}`}>
           <Button
@@ -34,21 +40,23 @@ const TabsWrapper = ({ children, userByUsername }: TabsWrapperProps) => {
             </span>
           </Button>
         </Link>
-        <Link href={`/${userByUsername.username}/saved`}>
-          <Button
-            variant="nav"
-            className={cn(
-              "hover:bg-transparent rounded-none border-t-[1px] border-t-transparent w-fit px-1 h-full",
-              pathname === `/${userByUsername.username}/saved` &&
-                "border-t-[1px] border-t-foreground"
-            )}
-          >
-            <Icons.savedSmall className="mr-1" />
-            <span className="uppercase font-semibold text-xs tracking-wider">
-              Saved
-            </span>
-          </Button>
-        </Link>
+        {loggedInUser && (
+          <Link href={`/${userByUsername.username}/saved`}>
+            <Button
+              variant="nav"
+              className={cn(
+                "hover:bg-transparent rounded-none border-t-[1px] border-t-transparent w-fit px-1 h-full",
+                pathname === `/${userByUsername.username}/saved` &&
+                  "border-t-[1px] border-t-foreground"
+              )}
+            >
+              <Icons.savedSmall className="mr-1" />
+              <span className="uppercase font-semibold text-xs tracking-wider">
+                Saved
+              </span>
+            </Button>
+          </Link>
+        )}
         <Link href={`/${userByUsername.username}/tagged`}>
           <Button
             variant="nav"

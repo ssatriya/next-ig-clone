@@ -4,6 +4,7 @@ import ProfileInfo from "./_components/profile-info";
 import ProfileFooter from "./_components/profile-footer";
 import { validateRequest } from "@/lib/auth/validate-request";
 import ProfileHightlight from "./_components/profile-hightlight";
+import { cn } from "@/lib/utils";
 
 type MetadataProps = {
   params: {
@@ -38,7 +39,7 @@ export default async function ProfileLayout({
 }) {
   const { user: loggedInUser } = await validateRequest();
 
-  if (!loggedInUser) return;
+  // if (!loggedInUser) return;
 
   const [userByUsername] = await db.query.users.findMany({
     with: {
@@ -68,18 +69,27 @@ export default async function ProfileLayout({
   });
 
   return (
-    <div className="w-[975px] py-[38px] px-5 space-y-14 flex flex-col min-h-screen">
+    <div
+      className={cn(
+        "w-[975px] py-[38px] px-5 space-y-14 flex flex-col min-h-screen",
+        !loggedInUser && "w-full items-center justify-center"
+      )}
+    >
       <ProfileInfo
         userPosts={userPosts}
         userByUsername={userByUsername}
         loggedInUser={loggedInUser}
       />
-      <ProfileHightlight
-        userByUsername={userByUsername}
-        loggedInUser={loggedInUser}
-      />
-      <TabsWrapper userByUsername={userByUsername}>{children}</TabsWrapper>
-      <div className="relative">
+      {loggedInUser && (
+        <ProfileHightlight
+          userByUsername={userByUsername}
+          loggedInUser={loggedInUser}
+        />
+      )}
+      <TabsWrapper userByUsername={userByUsername} loggedInUser={loggedInUser}>
+        {children}
+      </TabsWrapper>
+      <div className="relative w-[975px]">
         <ProfileFooter />
       </div>
     </div>
