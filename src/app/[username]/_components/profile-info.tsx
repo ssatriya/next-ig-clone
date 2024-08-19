@@ -40,6 +40,7 @@ const ProfileInfo = ({
 
       return data as ExtendedUser;
     },
+    enabled: loggedInUser != null,
   });
 
   const profileData = userProfileData ?? userByUsername;
