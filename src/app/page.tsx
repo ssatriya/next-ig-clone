@@ -11,16 +11,18 @@ export default async function HomePage() {
 
   if (user) {
     return (
-      <>
-        <Suspense fallback={<FeedLoading />}>
-          <FeedWrapper user={user} />
-        </Suspense>
-        <RightSidebar user={user} />
-      </>
+      <div className="flex justify-between w-full ">
+        <div className="flex justify-center mx-auto">
+          <Suspense fallback={<FeedLoading />}>
+            <FeedWrapper user={user} />
+          </Suspense>
+          <RightSidebar user={user} />
+        </div>
+      </div>
     );
   }
   return (
-    <div className="h-full flex items-center justify-center">
+    <div className="flex items-center justify-center h-full">
       <LoginForm />
     </div>
   );

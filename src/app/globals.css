@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  overflow-y: scroll;
-}
-
 .tiptap p.is-editor-empty:first-child::before {
   /* color: rgb(115, 115, 115); */
   color: rgb(150, 150, 150);
@@ -181,6 +177,6 @@ p:empty::before {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-y-scroll;
   }
 }

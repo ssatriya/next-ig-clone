@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        "3xl": "1670px",
+      },
       colors: {
         igPrimary: "rgb(0, 149, 246)",
         igPrimaryHover: "rgb(24, 119, 242)",

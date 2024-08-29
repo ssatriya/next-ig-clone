@@ -8,6 +8,7 @@ import LeftSidebar from "./_components/sidebar/left/left-sidebar";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import SessionProvider from "@/components/provider/session-provider";
 import ProgressbarProvider from "@/components/provider/progressbar-provider";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,26 +40,21 @@ export default async function RootLayout({
       suppressHydrationWarning={true}
       suppressContentEditableWarning={true}
     >
-      <body className={inter.className}>
+      <body className={cn(inter.className, "antialiased min-h-screen w-full")}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           <QueryProvider>
             <SessionProvider session={session}>
               <ProgressbarProvider>
-                <main className="antialiased w-full">
-                  {user ? (
-                    <div className="flex w-full">
-                      <LeftSidebar user={user} />
-                      <div className="flex items-start justify-center w-full">
-                        <div className="w-[340px]" />
-                        {children}
-                        {modal}
-                        <div id="modal-root" />
-                      </div>
-                    </div>
-                  ) : (
-                    children
-                  )}
-                </main>
+                <div className="flex justify-between w-full">
+                  <div className="h-full hidden md:flex w-[244px] max-[1263px]:w-[72px] 3xl:w-[336px]">
+                    <LeftSidebar user={user!} />
+                  </div>
+                  <div className="flex-1 w-full">
+                    {children}
+                    {modal}
+                    <div id="modal-root" />
+                  </div>
+                </div>
               </ProgressbarProvider>
             </SessionProvider>
           </QueryProvider>

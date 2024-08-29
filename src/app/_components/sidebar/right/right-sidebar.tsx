@@ -25,7 +25,10 @@ const RightSidebar = ({ user }: RightSidebarProps) => {
   });
 
   return (
-    <div className="w-[383px] pl-16 pt-4 shrink-0">
+    // <div className="bg-blue-800 w-[383px] pl-16 pt-4 shrink-0">
+    // <div className="pt-4 pl-16 shrink-0 w-[383px] max-[1264px]:w-[373px] hidden md:block">
+
+    <div className="pt-4 pl-16 shrink-0 w-[383px] hidden xl:block">
       <div className="px-4">
         <div className="flex items-center justify-between">
           <div className="flex gap-3">
@@ -41,7 +44,7 @@ const RightSidebar = ({ user }: RightSidebarProps) => {
               <AvatarFallback>ss</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <p className="font-semibold text-sm">{user.username}</p>
+              <p className="text-sm font-semibold">{user.username}</p>
               <p className="text-sm font-medium text-igSecondaryText">
                 {user.name}
               </p>
@@ -49,7 +52,7 @@ const RightSidebar = ({ user }: RightSidebarProps) => {
           </div>
           <Button
             variant="text"
-            className="text-igPrimary text-xs font-medium p-0"
+            className="p-0 text-xs font-medium text-igPrimary"
           >
             Switch
           </Button>

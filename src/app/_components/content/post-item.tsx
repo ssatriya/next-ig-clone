@@ -139,7 +139,7 @@ const PostItem = ({ post }: PostItemProps) => {
     <>
       <div className="w-[470px] flex flex-col justify-center pt-5 mb-4">
         <div className="flex items-center justify-between w-full mb-3">
-          <div className="flex gap-2 items-center">
+          <div className="flex items-center gap-2">
             <PostUserTooltip post={post} userId={post.userId}>
               <Link
                 href={`/${post.user.username}`}
@@ -184,7 +184,7 @@ const PostItem = ({ post }: PostItemProps) => {
               <time
                 dateTime={createdAt.toISOString()}
                 title={formatReadableDate(createdAt)}
-                className="text-igSecondaryText text-sm font-medium cursor-pointer"
+                className="text-sm font-medium cursor-pointer text-igSecondaryText"
               >
                 {formatTimeToNow(createdAt)}
               </time>
@@ -192,7 +192,7 @@ const PostItem = ({ post }: PostItemProps) => {
           </div>
           <Button
             size="icon"
-            className="p-0 h-6 w-6 bg-transparent hover:bg-transparent group"
+            className="w-6 h-6 p-0 bg-transparent hover:bg-transparent group"
           >
             <Icons.moreCircle className="fill-primary group-hover:fill-igSecondaryText" />
           </Button>
@@ -215,7 +215,7 @@ const PostItem = ({ post }: PostItemProps) => {
           >
             {images.map((image, index) => (
               <SwiperSlide key={image + index}>
-                <div className="h-auto w-auto">
+                <div className="w-auto h-auto">
                   <Image
                     src={image}
                     height={0}
@@ -243,13 +243,13 @@ const PostItem = ({ post }: PostItemProps) => {
             </AspectRatio>
           )}
         </div>
-        <div className="flex justify-between items-center w-full mt-1">
+        <div className="flex items-center justify-between w-full mt-1">
           <div className="flex -ml-2">
             {user && <LikeButton post={post} loggedInUserId={user.id} />}
             <Link href={`/p/${post.id}`}>
               <Button
                 size="icon"
-                className="p-2 h-10 w-10 bg-transparent hover:bg-transparent group"
+                className="w-10 h-10 p-2 bg-transparent hover:bg-transparent group"
                 onClick={() => setFromTop(scroll.y)}
               >
                 <Icons.comment className="stroke-primary group-hover:stroke-igSecondaryText" />
@@ -257,14 +257,14 @@ const PostItem = ({ post }: PostItemProps) => {
             </Link>
             <Button
               size="icon"
-              className="p-2 h-10 w-10 bg-transparent hover:bg-transparent group"
+              className="w-10 h-10 p-2 bg-transparent hover:bg-transparent group"
             >
               <Icons.share className="stroke-primary group-hover:stroke-igSecondaryText" />
             </Button>
           </div>
           <Button
             size="icon"
-            className="p-0 h-fit w-fit bg-transparent hover:bg-transparent group"
+            className="p-0 bg-transparent h-fit w-fit hover:bg-transparent group"
             aria-label="Save"
           >
             <Icons.save className="stroke-primary group-hover:stroke-igSecondaryText" />
@@ -313,7 +313,7 @@ const PostItem = ({ post }: PostItemProps) => {
                       }}
                       role="link"
                       tabIndex={0}
-                      className="w-fit h-fit p-0 hover:no-underline"
+                      className="p-0 w-fit h-fit hover:no-underline"
                     >
                       <span className="font-semibold">others</span>
                     </a>
@@ -330,10 +330,10 @@ const PostItem = ({ post }: PostItemProps) => {
             />
           )}
           <div className="flex flex-col">
-            <div className="relative text-sm inline-flex gap-2 h-full w-auto">
+            <div className="relative inline-flex w-auto h-full gap-2 text-sm">
               <span
                 ref={usernameRef}
-                className="font-bold h-fit absolute select-none"
+                className="absolute font-bold select-none h-fit"
               >
                 <Link
                   onClick={() => setFromTop(scroll.y)}

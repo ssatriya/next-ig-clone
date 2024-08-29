@@ -63,8 +63,8 @@ const Feed = ({ posts }: FeedProps) => {
   // }, []);
 
   return (
-    <div className="flex flex-col">
-      <ul className="w-[630px] h-full flex flex-col items-center">
+    <div className="w-auto md:w-[630px] flex flex-col">
+      <ul className="flex flex-col items-center h-full">
         {feedPosts &&
           feedPosts.map((post, index) => {
             if (index === feedPosts.length - 1) {
@@ -83,7 +83,7 @@ const Feed = ({ posts }: FeedProps) => {
           })}
 
         {hasNextPage && (
-          <li className="flex justify-center items-center h-14">
+          <li className="flex items-center justify-center h-14">
             {!isFetching && (
               <span className="text-sm font-semibold text-igSecondaryText">
                 End of content

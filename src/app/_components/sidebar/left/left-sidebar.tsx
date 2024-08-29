@@ -33,9 +33,9 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
       children: (
         <>
           {pathname === "/" ? (
-            <Icons.homeActive className="group-hover:scale-110 transition shrink-0" />
+            <Icons.homeActive className="transition group-hover:scale-110 shrink-0" />
           ) : (
-            <Icons.home className="group-hover:scale-110 transition shrink-0" />
+            <Icons.home className="transition group-hover:scale-110 shrink-0" />
           )}
           <p
             className={cn(
@@ -48,7 +48,7 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
         </>
       ),
       childrenMobile: (
-        <Icons.home className="group-hover:scale-110 transition" />
+        <Icons.home className="transition group-hover:scale-110" />
       ),
     },
     {
@@ -56,12 +56,12 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
       type: "button",
       children: (
         <>
-          <Icons.search className="group-hover:scale-110 transition shrink-0" />
+          <Icons.search className="transition group-hover:scale-110 shrink-0" />
           <p className="pl-4 font-normal text-[16px] leading-5">Search</p>
         </>
       ),
       childrenMobile: (
-        <Icons.search className="group-hover:scale-110 transition" />
+        <Icons.search className="transition group-hover:scale-110" />
       ),
       onClick: () => {
         toggleOpenSearch();
@@ -73,12 +73,12 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
       href: "/explore",
       children: (
         <>
-          <Icons.explore className="group-hover:scale-110 transition shrink-0" />
+          <Icons.explore className="transition group-hover:scale-110 shrink-0" />
           <p className="pl-4 font-normal text-[16px] leading-5">Explore</p>
         </>
       ),
       childrenMobile: (
-        <Icons.explore className="group-hover:scale-110 transition" />
+        <Icons.explore className="transition group-hover:scale-110" />
       ),
     },
     {
@@ -87,12 +87,12 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
       href: "/reels",
       children: (
         <>
-          <Icons.reels className="group-hover:scale-110 transition shrink-0" />
+          <Icons.reels className="transition group-hover:scale-110 shrink-0" />
           <p className="pl-4 font-normal text-[16px] leading-5">Reels</p>
         </>
       ),
       childrenMobile: (
-        <Icons.reels className="group-hover:scale-110 transition" />
+        <Icons.reels className="transition group-hover:scale-110" />
       ),
     },
     {
@@ -101,12 +101,12 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
       href: "/messages",
       children: (
         <>
-          <Icons.message className="group-hover:scale-110 transition shrink-0" />
+          <Icons.message className="transition group-hover:scale-110 shrink-0" />
           <p className="pl-4 font-normal text-[16px] leading-5">Messages</p>
         </>
       ),
       childrenMobile: (
-        <Icons.message className="group-hover:scale-110 transition" />
+        <Icons.message className="transition group-hover:scale-110" />
       ),
     },
     {
@@ -114,14 +114,14 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
       type: "button",
       children: (
         <>
-          <Icons.love className="group-hover:scale-110 transition shrink-0" />
+          <Icons.love className="transition group-hover:scale-110 shrink-0" />
           <p className="pl-4 font-normal text-[16px] leading-5">
             Notifications
           </p>
         </>
       ),
       childrenMobile: (
-        <Icons.love className="group-hover:scale-110 transition" />
+        <Icons.love className="transition group-hover:scale-110" />
       ),
       onClick: () => {},
     },
@@ -130,12 +130,12 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
       type: "button",
       children: (
         <>
-          <Icons.create className="group-hover:scale-110 transition shrink-0" />
+          <Icons.create className="transition group-hover:scale-110 shrink-0" />
           <p className="pl-4 font-normal text-[16px] leading-5">Create</p>
         </>
       ),
       childrenMobile: (
-        <Icons.create className="group-hover:scale-110 transition" />
+        <Icons.create className="transition group-hover:scale-110" />
       ),
       onClick: () => {
         onOpen();
@@ -155,7 +155,7 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
                 : "bg-transparent"
             )}
           >
-            <Avatar className="h-6 w-6">
+            <Avatar className="w-6 h-6">
               <AvatarImage src={user.image} asChild>
                 <Image
                   src={user.image}
@@ -189,7 +189,7 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
                 : "bg-transparent"
             )}
           >
-            <Avatar className="h-6 w-6">
+            <Avatar className="w-6 h-6">
               <AvatarImage src={user.image} asChild>
                 <Image
                   src={user.image}
@@ -209,82 +209,88 @@ const LeftSidebar = ({ user }: LeftSidebarProps) => {
 
   return (
     <>
-      <div className="flex">
-        <aside>
-          <div
-            className={cn(
-              "h-full px-3 pt-6 pb-4 flex flex-col justify-between fixed",
-              isOpenSearch
-                ? "w-[72px] border-none"
-                : "w-[245px] min-[1700px]:w-[336px] border-r-[1px]"
-            )}
-          >
-            <div>
-              <div className="mb-[19px] pt-5 px-3 pb-4">
-                {isOpenSearch ? (
-                  <Icons.instagramLogo className="h-[29px] w-[29px]" />
-                ) : (
-                  <Icons.instagramLogoType className="h-[29px] w-[103px]" />
-                )}
-              </div>
-              <div className="flex shrink-0 flex-col gap-1">
-                {!isOpenSearch &&
-                  navLinks.map((nav, index) => {
-                    if (nav.type === "link") {
-                      return (
-                        <NavItem
-                          key={index}
-                          type={nav.type}
-                          href={nav.href as string}
-                        >
-                          {nav.children}
-                        </NavItem>
-                      );
-                    } else {
-                      return (
-                        <NavItem
-                          key={index}
-                          type={nav.type}
-                          onClick={nav.onClick as () => void}
-                        >
-                          {nav.children}
-                        </NavItem>
-                      );
-                    }
-                  })}
-                {isOpenSearch &&
-                  navLinks.map((nav, index) => {
-                    if (nav.type === "link") {
-                      return (
-                        <MobileNavItem
-                          key={index}
-                          type={nav.type}
-                          href={nav.href as string}
-                        >
-                          {nav.childrenMobile}
-                        </MobileNavItem>
-                      );
-                    } else {
-                      return (
-                        <MobileNavItem
-                          key={index}
-                          type={nav.type}
-                          onClick={nav.onClick as () => void}
-                        >
-                          {nav.childrenMobile}
-                        </MobileNavItem>
-                      );
-                    }
-                  })}
-              </div>
+      <aside>
+        <div
+          className={cn(
+            "h-full px-3 pt-6 pb-4 hidden border-r-[1px] md:flex flex-col justify-between fixed w-[244px] max-[1263px]:w-[72px] 3xl:w-[336px]"
+            // isOpenSearch
+            //   ? "w-[72px] border-none"
+            //   : "w-[245px] min-[1700px]:w-[336px] border-r-[1px]"
+          )}
+        >
+          <div>
+            <div className="mb-[19px] pt-5 px-3 pb-4">
+              {/* {isOpenSearch ? ( */}
+              <Icons.instagramLogo className="h-[29px] w-[29px] hidden max-[1263px]:block" />
+              {/* ) : ( */}
+              <Icons.instagramLogoType className="h-[29px] w-[103px] hidden min-[1264px]:block" />
+              {/* )} */}
             </div>
-            <div className="w-full">
-              {isOpenSearch ? <MobileOptions /> : <Options />}
+            <div className="flex flex-col gap-1 shrink-0">
+              <div className="hidden min-[1264px]:block">
+                {navLinks.map((nav, index) => {
+                  if (nav.type === "link") {
+                    return (
+                      <NavItem
+                        key={index}
+                        type={nav.type}
+                        href={nav.href as string}
+                      >
+                        {nav.children}
+                      </NavItem>
+                    );
+                  } else {
+                    return (
+                      <NavItem
+                        key={index}
+                        type={nav.type}
+                        onClick={nav.onClick as () => void}
+                      >
+                        {nav.children}
+                      </NavItem>
+                    );
+                  }
+                })}
+              </div>
+              <div className="hidden max-[1263px]:block">
+                {navLinks.map((nav, index) => {
+                  if (nav.type === "link") {
+                    return (
+                      <MobileNavItem
+                        key={index}
+                        type={nav.type}
+                        href={nav.href as string}
+                      >
+                        {nav.childrenMobile}
+                      </MobileNavItem>
+                    );
+                  } else {
+                    return (
+                      <MobileNavItem
+                        key={index}
+                        type={nav.type}
+                        onClick={nav.onClick as () => void}
+                      >
+                        {nav.childrenMobile}
+                      </MobileNavItem>
+                    );
+                  }
+                })}
+              </div>
             </div>
           </div>
-        </aside>
-        {isOpen && <CreatePost />}
-      </div>
+          <div className="w-full">
+            <div className="hidden max-[1263px]:block">
+              <MobileOptions />
+            </div>
+            <div className="hidden min-[1264px]:block">
+              <Options />
+            </div>
+            {/* {isOpenSearch ? <MobileOptions /> : <Options />} */}
+          </div>
+        </div>
+      </aside>
+      {isOpen && <CreatePost />}
       {/* {openSearch && <Search ref={searchRef} />} */}
     </>
   );
