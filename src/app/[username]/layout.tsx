@@ -69,28 +69,28 @@ export default async function ProfileLayout({
   });
 
   return (
-    <div
-      className={cn(
-        "w-[975px] py-[38px] px-5 space-y-14 flex flex-col min-h-screen",
-        !loggedInUser && "w-full items-center justify-center"
-      )}
-    >
-      <ProfileInfo
-        userPosts={userPosts}
-        userByUsername={userByUsername}
-        loggedInUser={loggedInUser}
-      />
-      {loggedInUser && (
-        <ProfileHightlight
+    <div className="w-full flex flex-1">
+      <div className="py-[38px] px-5 space-y-14 w-[975px] mx-auto min-h-screen">
+        <ProfileInfo
+          userPosts={userPosts}
           userByUsername={userByUsername}
           loggedInUser={loggedInUser}
         />
-      )}
-      <TabsWrapper userByUsername={userByUsername} loggedInUser={loggedInUser}>
-        {children}
-      </TabsWrapper>
-      <div className="relative w-[975px]">
-        <ProfileFooter />
+        {loggedInUser && (
+          <ProfileHightlight
+            userByUsername={userByUsername}
+            loggedInUser={loggedInUser}
+          />
+        )}
+        <TabsWrapper
+          userByUsername={userByUsername}
+          loggedInUser={loggedInUser}
+        >
+          {children}
+        </TabsWrapper>
+        <div className="relative w-[975px]">
+          <ProfileFooter />
+        </div>
       </div>
     </div>
   );

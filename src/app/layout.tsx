@@ -41,14 +41,16 @@ export default async function RootLayout({
       suppressContentEditableWarning={true}
     >
       <body className={cn(inter.className, "antialiased min-h-screen w-full")}>
-        <ThemeProvider attribute="class" defaultTheme="dark">
+        <ThemeProvider attribute="class" defaultTheme="light">
           <QueryProvider>
             <SessionProvider session={session}>
               <ProgressbarProvider>
                 <div className="flex justify-between w-full">
-                  <div className="h-full hidden md:flex w-[244px] max-[1263px]:w-[72px] 3xl:w-[336px]">
-                    <LeftSidebar user={user!} />
-                  </div>
+                  {user && (
+                    <div className="h-full hidden md:flex w-[244px] max-[1263px]:w-[72px] 3xl:w-[336px]">
+                      <LeftSidebar user={user} />
+                    </div>
+                  )}
                   <div className="flex-1 w-full">
                     {children}
                     {modal}

@@ -129,7 +129,7 @@ const ProfileInfo = ({
                 <Icons.options />
               </Button>
             )}
-            {!myProfile && (
+            {!myProfile && loggedInUser && (
               <>
                 {isFollowingLocal && (
                   <FollowingButton
@@ -146,6 +146,15 @@ const ProfileInfo = ({
                   />
                 )}
               </>
+            )}
+            {!loggedInUser && (
+              <Button
+                // onClick={() => followHandler()}
+                variant="nav"
+                className="relative px-4 h-8 w-[96px] text-sm rounded-lg bg-igElevatedSeparator/50 hover:bg-igElevatedSeparator dark:bg-background-accent dark:hover:bg-background-accent/80"
+              >
+                Follow
+              </Button>
             )}
             {!myProfile && loggedInUser && (
               <Button
