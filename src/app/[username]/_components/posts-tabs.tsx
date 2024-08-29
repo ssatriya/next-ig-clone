@@ -17,7 +17,10 @@ const PostsTabs = ({
   userByUsername,
   loggedInUser,
 }: PostsTabsProps) => {
-  return userByUsername.id === loggedInUser?.id ? (
+  // add hover post like personal profile for public non login user
+  if (!loggedInUser?.id) return <GeneralProfilePosts userPosts={userPosts} />;
+
+  return userByUsername.id === loggedInUser.id ? (
     <PersonalProfilePosts userPosts={userPosts} />
   ) : (
     <GeneralProfilePosts userPosts={userPosts} />

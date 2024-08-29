@@ -35,7 +35,7 @@ const NavItem = (props: ButtonProps | AnchorProps) => {
     return (
       <Button
         variant="nav"
-        className="my-[2px] p-3 flex items-center justify-start h-12 rounded-lg group"
+        className="my-[2px] p-3 flex items-center justify-start h-12 rounded-lg group w-full"
         onClick={onClick}
       >
         {children}
